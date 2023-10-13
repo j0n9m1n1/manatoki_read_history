@@ -35,17 +35,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     }
 });
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    chrome.notifications.create({
-        type: 'basic',
-        iconUrl: 'done_FILL0_wght400_GRAD0_opsz24.png',
-        title: '알림 제목',
-        message: '알림 내용'
-    }, function (notificationId) {
-        console.log('created notification')
-    });
-});
-
 function getLocalDateTimeString() {
     var now = new Date();
     var year = now.getFullYear();
