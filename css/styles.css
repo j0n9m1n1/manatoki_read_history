@@ -1,0 +1,17 @@
+#linkList {
+    overflow-x: auto;
+}
+
+body {
+    width: 450px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin: 0;
+    padding: 5px;
+}
