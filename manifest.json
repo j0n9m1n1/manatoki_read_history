@@ -21,9 +21,9 @@
     "background": {
         "service_worker": "background.js"
     },
-    "options_ui":{
-        "page":"option.html",
-        "js":"option.js"
+    "options_ui": {
+        "page": "option.html",
+        "js": "option.js"
     },
     "content_scripts": [
         {
@@ -33,7 +33,6 @@
             "js": [
                 "content.js"
             ]
-
         }
     ],
     "icons": {
