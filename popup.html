@@ -4,16 +4,22 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <title>링크 기록</title>
+    <title>History</title>
 </head>
 
 <body>
-    <button id="clearData">초기화</button>
-    <button id="exportData">내보내기</button>
-    <input type="file" id="fileInput">
-    <button id="uploadButton">불러오기</button>
-    <ul id="linkList"></ul>
+    <label for="username">ID</label>
+    <input type="text" id="username" name="username" required><br><br>
 
+    <label for="password">PW</label>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <button type="submit_login">Login</button>
+
+    <button id="openRegister">Register</button>
+    <button id="openOption">Option</button>
+
+    <ul id="linkList"></ul>
     <script src="popup.js"></script>
 </body>
 
