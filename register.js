@@ -4,7 +4,7 @@ document.getElementById('registerForm').addEventListener('submit_register', func
     var formData = new FormData(this); // 폼 데이터 가져오기
   
     // 서버로 데이터 전송
-    fetch('http://jmlee4dev.net/manatoki_extension/register', {
+    fetch('https://jmlee4dev.net/extension/register', {
       method: 'POST',
       body: formData
     })
