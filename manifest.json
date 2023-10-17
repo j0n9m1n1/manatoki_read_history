@@ -21,6 +21,10 @@
     "background": {
         "service_worker": "background.js"
     },
+    "options_ui":{
+        "page":"option.html",
+        "js":"option.js"
+    },
     "content_scripts": [
         {
             "matches": [
@@ -29,6 +33,7 @@
             "js": [
                 "content.js"
             ]
+
         }
     ],
     "icons": {
