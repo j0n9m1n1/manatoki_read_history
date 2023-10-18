@@ -37,3 +37,19 @@ document.addEventListener('DOMContentLoaded', function() {
       chrome.tabs.create({url: 'register.html'});
     });
   });
+
+  document.getElementById('loginButton').addEventListener('click', function() {
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://jmlee4dev.net/extension/login', true);
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log('Response:', xhr.responseText);
+        }
+    };
+    var data = JSON.stringify({username: username, password: password});
+    xhr.send(data);
+});
