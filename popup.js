@@ -28,44 +28,44 @@ chrome.storage.local.get(['titleList'], function (result) {
     }
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('openOption').addEventListener('click', function() {
-      chrome.tabs.create({url: 'option.html'});
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('openOption').addEventListener('click', function () {
+        chrome.tabs.create({ url: 'option.html' });
     });
-  
-    document.getElementById('openRegister').addEventListener('click', function() {
-      chrome.tabs.create({url: 'register.html'});
-    });
-  });
 
-  document.getElementById('loginButton').addEventListener('click', function() {
-    var username = document.getElementById('username').value;
+    document.getElementById('openRegister').addEventListener('click', function () {
+        chrome.tabs.create({ url: 'register.html' });
+    });
+});
+
+document.getElementById('loginButton').addEventListener('click', function () {
+    var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
 
     fetch('https://jmlee4dev.net/extension/login', {
         method: 'POST',
+        mode: 'cors',
         headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username: username, password: password })
+        body: JSON.stringify({ email: email, password: password })
     })
-    .then(response => response.text())
-    .then(data => {
-        console.log('Response:', data);
-        alert(data)
-        if(data === 'success')
-        {
-            document.getElementById('username').style.display = 'none';
-            document.getElementById('password').style.display = 'none';
-            document.getElementById('loginButton').style.display = 'none';
-        }
-        else
-        {
-            var loginMessage = document.getElementById('loginMessage');
-            loginMessage.textContent = '로그인 실패';
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+        .then(response => response.text())
+        .then(data => {
+            console.log('Response:', data);
+            alert(data)
+            if (data === 'success') {
+                document.getElementById('email').style.display = 'none';
+                document.getElementById('password').style.display = 'none';
+                document.getElementById('loginButton').style.display = 'none';
+            }
+            else {
+                var loginMessage = document.getElementById('loginMessage');
+                loginMessage.textContent = '로그인 실패';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 });

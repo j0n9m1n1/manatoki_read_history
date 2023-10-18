@@ -3,9 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
     event.preventDefault(); // 기본 제출 동작 방지
 
     var formData = {
-      username: document.getElementById('username').value,
-      password: document.getElementById('password').value,
-      email: document.getElementById('email').value
+      email: document.getElementById('email').value,
+      password: document.getElementById('password').value
     };
 
     // 데이터를 JSON으로 변환

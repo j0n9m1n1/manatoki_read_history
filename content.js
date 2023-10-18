@@ -38,40 +38,6 @@ function checkReadTitle() {
     });
 }
 
-    // var itemCount = document.querySelectorAll('.item-subject').length;
-
-    // for (var idx = itemCount; idx > 0; idx--) {
-    //     (function (idx) {  // 클로저
-    //         var listItemElement = document.querySelector('li.list-item');
-    //         var dataIndexValue = listItemElement.getAttribute('data-index');
-    //         console.log('data-index value: ' + dataIndexValue);
-    //         var wrNum = document.querySelector('li.list-item[data-index="' + dataIndexValue + '"] .wr-num').textContent.trim();
-    //         console.log('wrNum: ' + wrNum)
-    //         var countElement = document.querySelector('.count.orangered.hidden-xs');
-    //         var commentCountLength = countElement.textContent.length;
-
-    //         var listTitle = document.querySelector('#serial-move > div > ul > li:nth-child(' + idx + ') > div.wr-subject > a').textContent.trim();
-    //         listTitle = listTitle.substring(commentCountLength, listTitle.length - commentCountLength).trim()
-
-    //         chrome.storage.local.get(['titleList'], function (result) {
-    //             var titleList = result.titleList || [];
-
-    //             for (var i = 0; i < titleList.length; i++) {
-    //                 console.log('idx: ' + idx)
-    //                 if (titleList[i].title === listTitle) {
-    //                     console.log('stored title: ' + titleList[i].title + ', list title: ' + listTitle + ', found idx: ' + idx)
-    //                     var timestamp = titleList[i].timestamp;
-    //                     var titleElement = document.querySelector('li[data-index="' + idx + '"] .wr-subject');
-    //                     var timeElement = document.createElement('span');
-
-    //                     timeElement.textContent = ' - ' + timestamp;
-    //                     titleElement.append(timeElement);
-    //                 }
-    //             }
-    //         });
-    //     })(idx);  // 클로저 호출
-    // }
-
 async function processTitle() {
     showFeedbackMessage('saved');
     var titleElement = document.querySelector('.toon-title');
@@ -100,7 +66,7 @@ async function processTitle() {
                 console.log('before noti')
                 chrome.notifications.create({
                     type: 'basic',
-                    iconUrl: 'done_FILL0_wght400_GRAD0_opsz24.png',
+                    iconUrl: 'saved.png',
                     title: '알림 제목',
                     message: '알림 내용'
                 }, function (notificationId) {
