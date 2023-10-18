@@ -36,6 +36,7 @@ function checkReadTitle() {
             }
         });
     });
+}
 
     // var itemCount = document.querySelectorAll('.item-subject').length;
 
@@ -70,7 +71,6 @@ function checkReadTitle() {
     //         });
     //     })(idx);  // 클로저 호출
     // }
-}
 
 async function processTitle() {
     showFeedbackMessage('saved');

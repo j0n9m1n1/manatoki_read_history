@@ -1,3 +1,11 @@
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0,
+            v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action == "setTitle") {
         var titleValue = request.titleValue;
@@ -19,8 +27,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             if (!isDuplicate) {
                 // 중복된 타이틀이 아닌 경우에만 추가
                 titleList.unshift({
+                    uuid: generateUUID(),
                     title: titleValue,
-                    timestamp: currentFormattedDateTime
+                    timestamp: currentFormattedDateTime,
+                    saved: false // 기본값은 false
                 });
                 sendResponse({ success: true });
 
@@ -49,7 +59,9 @@ function getLocalDateTimeString() {
 
 function logAllData(data) {
     for (var i = 0; i < data.length; i++) {
+        console.log('uuid ' + i + ': ' + data[i].uuid);
         console.log('Title ' + i + ': ' + data[i].title);
         console.log('Timestamp ' + i + ': ' + data[i].timestamp);
+        console.log('saved ' + i + ': ' + data[i].saved);
     }
 }
