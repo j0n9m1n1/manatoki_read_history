@@ -29,9 +29,9 @@ chrome.storage.local.get(['titleList'], function (result) {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('openOption').addEventListener('click', function () {
-        chrome.tabs.create({ url: 'option.html' });
-    });
+    // document.getElementById('openOption').addEventListener('click', function () {
+    //     chrome.tabs.create({ url: 'option.html' });
+    // });
 
     document.getElementById('openRegister').addEventListener('click', function () {
         chrome.tabs.create({ url: 'register.html' });
@@ -51,14 +51,13 @@ document.getElementById('loginButton').addEventListener('click', function () {
         },
         body: JSON.stringify({ email: email, password: password })
     })
-        .then(response => response.text())
+        .then(response => response.json())
         .then(data => {
-            console.log('Response:', data);
-            alert(data)
-            if (data === 'success') {
-                document.getElementById('email').style.display = 'none';
-                document.getElementById('password').style.display = 'none';
-                document.getElementById('loginButton').style.display = 'none';
+            if (data.message === "success") {
+                chrome.storage.local.set({ 'token': token }, function () {
+
+                });
+                document.getElementById('div_login').style.display = 'none';
             }
             else {
                 var loginMessage = document.getElementById('loginMessage');

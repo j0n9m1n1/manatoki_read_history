@@ -8,21 +8,24 @@
 </head>
 
 <body>
-    <label for="email">email</label>
-    <input type="text" id="email" name="email" value="test@test.com" required><br>
+    <div id="div_login">
+        <label id="lab_email" for="email" style="width:15%">email</label>
+        <input type="text" id="email" name="email" value="test@test.com" style="width:25%" required>
 
-    <label for="password">pw</label>
-    <input type="password" id="password" name="password" value="testPW" required><br>
+        <label id="lab_password" for="password" style="width:15%">pw</label>
+        <input type="password" id="password" name="password" value="testPW" style="width:25%" required>
 
-    <button type="submit" id="loginButton">Login</button>
+        <button type="submit" id="loginButton" style="width:15%">Login</button>
+        <button id="openRegister" style="width:15%">Register</button>
 
+    </div>
     <p id="loginMessage"></p>
 
-    <button id="openRegister">Register</button>
-    <button id="openOption">Option</button>
-
-    <ul id="linkList"></ul>
-    <script src="popup.js"></script>
+    <!-- <button id="openOption">Option</button> -->
+    <div id="div_title">
+        <ul id="linkList"></ul>
+        <script src="popup.js"></script>
+    </div>
 </body>
 
 </html>
