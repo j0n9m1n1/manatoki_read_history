@@ -42,14 +42,30 @@ document.addEventListener('DOMContentLoaded', function() {
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://jmlee4dev.net/extension/login', true);
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            console.log('Response:', xhr.responseText);
+    fetch('https://jmlee4dev.net/extension/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+        },
+        body: JSON.stringify({ username: username, password: password })
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log('Response:', data);
+        alert(data)
+        if(data === 'success')
+        {
+            document.getElementById('username').style.display = 'none';
+            document.getElementById('password').style.display = 'none';
+            document.getElementById('loginButton').style.display = 'none';
         }
-    };
-    var data = JSON.stringify({username: username, password: password});
-    xhr.send(data);
+        else
+        {
+            var loginMessage = document.getElementById('loginMessage');
+            loginMessage.textContent = '로그인 실패';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 });
