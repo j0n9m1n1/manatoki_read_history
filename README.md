@@ -1,6 +1,10 @@
 # manatoki_read_history
 For chrome extension
 
+팝업페이지
+  회차 타이틀을 N개 요청
+  return
+
 히스토리 가져오기
   목록 페이지
     타이틀을 찾는다.
