@@ -10,6 +10,36 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action == "setTitle") {
         var titleValue = request.titleValue;
         var currentFormattedDateTime = getLocalDateTimeString();
+        var tokenValue = "TOKENTEST"
+
+        var formData = {
+            title: titleValue,
+            read_at: currentFormattedDateTime,
+            token: tokenValue
+          };
+        // 데이터를 JSON으로 변환
+    var jsonData = JSON.stringify(formData);
+    console.log(jsonData)
+    // 서버로 데이터 전송
+    fetch('https://jmlee4dev.net/extension/add_read_history', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData) // 이 부분을 수정하여 JSON으로 변환
+      // body: jsonData
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('서버 응답:', data);
+        // 성공적으로 처리된 경우의 코드
+      })
+      .catch(error => {
+        console.error('에러:', error);
+        // 에러 발생 시 처리하는 코드
+      });
 
         chrome.storage.local.get(['titleList'], function (result) {
             var titleList = result.titleList || [];
@@ -39,7 +69,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             chrome.storage.local.set({ 'titleList': titleList }, function () {
                 // 저장된 목록을 출력
                 sendResponse({ success: true });
-                logAllData(titleList);
+                // logAllData(titleList);
             });
         });
     }

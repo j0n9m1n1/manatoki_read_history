@@ -1,3 +1,9 @@
+chrome.storage.local.get(['token, token_expire'], function(result) {
+    var token = result.token;
+    var token_expire = result.expire;
+    console.log('토큰:', token);
+    console.log('토큰:', token_expire);
+});
 var linkListElement = document.getElementById('linkList');
 
 chrome.storage.local.get(['titleList'], function (result) {
@@ -53,8 +59,12 @@ document.getElementById('loginButton').addEventListener('click', function () {
     })
         .then(response => response.json())
         .then(data => {
+            console.log(data.token)
+            console.log("data message: ", data.message)
             if (data.message === "success") {
-                chrome.storage.local.set({ 'token': token }, function () {
+                chrome.storage.local.set({ 
+                'token': data.token, 
+                'token_expire': data.token_expire}, function () {
 
                 });
                 document.getElementById('div_login').style.display = 'none';
