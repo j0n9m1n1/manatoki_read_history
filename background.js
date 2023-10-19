@@ -1,3 +1,36 @@
+var token;
+var expired = true;
+
+chrome.storage.local.get(['token', 'token_expire'], function(result) {
+    token = result.token;
+    var expireTimeString = result.token_expire;
+    // 만료 시간 문자열을 Date 객체로 변환
+    var expireTime = new Date(expireTimeString);
+
+    // 현재 시간을 가져옵니다.
+    var currentTime = new Date();
+
+    // 토큰 만료 여부 확인
+    if (currentTime > expireTime) {
+        console.log('토큰이 만료되었습니다.');
+        expired = true;
+        document.getElementById('div_login').style.display = 'block';
+    } else {
+        console.log('토큰은 아직 유효합니다.');
+        expired = false;
+        document.getElementById('div_login').style.display = 'none';
+    }
+});
+
+if (expired === false)
+{
+
+}
+else
+{
+
+}
+
 function generateUUID() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = Math.random() * 16 | 0,
