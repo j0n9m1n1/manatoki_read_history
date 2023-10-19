@@ -1,9 +1,20 @@
-chrome.storage.local.get(['token, token_expire'], function(result) {
+chrome.storage.local.get(['token', 'token_expire'], function(result) {
     var token = result.token;
-    var token_expire = result.expire;
-    console.log('토큰:', token);
-    console.log('토큰:', token_expire);
+    var expireTimeString = result.token_expire;
+    // 만료 시간 문자열을 Date 객체로 변환
+    var expireTime = new Date(expireTimeString);
+
+    // 현재 시간을 가져옵니다.
+    var currentTime = new Date();
+
+    // 토큰 만료 여부 확인
+    if (currentTime > expireTime) {
+        console.log('토큰이 만료되었습니다.');
+    } else {
+        console.log('토큰은 아직 유효합니다.');
+    }
 });
+
 var linkListElement = document.getElementById('linkList');
 
 chrome.storage.local.get(['titleList'], function (result) {
@@ -59,7 +70,9 @@ document.getElementById('loginButton').addEventListener('click', function () {
     })
         .then(response => response.json())
         .then(data => {
+            data = JSON.parse(data);
             console.log(data.token)
+            console.log(data.token_expire)
             console.log("data message: ", data.message)
             if (data.message === "success") {
                 chrome.storage.local.set({ 
