@@ -1,33 +1,44 @@
 var token;
 var expired = true;
 
-chrome.storage.local.get(['token', 'token_expire'], function(result) {
+chrome.storage.local.get(['token', 'token_expire'], function (result) {
     token = result.token;
     var expireTimeString = result.token_expire;
+    console.log("result.token_expire: " + result.token_expire)
     // 만료 시간 문자열을 Date 객체로 변환
-    var expireTime = new Date(expireTimeString);
+    if (token !== null && token !== undefined) {
+        if (expireTimeString !== null && expireTimeString !== undefined) {
+            var expireTime = new Date(expireTimeString);
 
-    // 현재 시간을 가져옵니다.
-    var currentTime = new Date();
+            // 현재 시간을 가져옵니다.
+            var currentTime = new Date();
 
-    // 토큰 만료 여부 확인
-    if (currentTime > expireTime) {
-        console.log('토큰이 만료되었습니다.');
-        expired = true;
-        document.getElementById('div_login').style.display = 'block';
-    } else {
-        console.log('토큰은 아직 유효합니다.');
-        expired = false;
-        document.getElementById('div_login').style.display = 'none';
+            // 토큰 만료 여부 확인
+            if (currentTime > expireTime) {
+                console.log(currentTime + " " + expireTime)
+                console.log('토큰이 만료되었습니다.');
+                expired = true;
+                document.getElementById('div_login').style.display = 'block';
+            } else {
+                console.log(currentTime + " " + expireTime)
+                console.log('토큰은 아직 유효합니다.');
+                expired = false;
+                document.getElementById('div_login').style.display = 'none';
+            }
+        }
+        else {
+            console.log('not found token expire.' + expireTimeString)
+        }
+    }
+    else {
+        console.log('not found token.')
     }
 });
 
-if (expired === false)
-{
+if (expired === false) {
 
 }
-else
-{
+else {
 
 }
 
@@ -91,9 +102,10 @@ document.getElementById('loginButton').addEventListener('click', function () {
             console.log(data.token_expire)
             console.log("data message: ", data.message)
             if (data.message === "success") {
-                chrome.storage.local.set({ 
-                'token': data.token, 
-                'token_expire': data.token_expire}, function () {
+                chrome.storage.local.set({
+                    'token': data.token,
+                    'token_expire': data.token_expire
+                }, function () {
 
                 });
                 document.getElementById('div_login').style.display = 'none';
