@@ -124,10 +124,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                 'Content-Type': 'application/json'
             },
         })
-            .then(response => {
+            .then(response => response.json())
+            .then(data => {
+                data = JSON.parse(data);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
+                console.log(data)
                 return response.json();
             })
             .then(data => {

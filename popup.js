@@ -19,19 +19,27 @@ chrome.storage.local.get(['token', 'token_expire'], function (result) {
                 console.log('토큰이 만료되었습니다.');
                 expired = true;
                 document.getElementById('div_login').style.display = 'block';
+                document.getElementById('div_login_info').style.display = 'none';
+
             } else {
                 console.log(currentTime + " " + expireTime)
                 console.log('토큰은 아직 유효합니다.');
                 expired = false;
                 document.getElementById('div_login').style.display = 'none';
+                document.getElementById('div_login_info').style.display = 'show';
+
             }
         }
         else {
             console.log('not found token expire.' + expireTimeString)
+            document.getElementById('div_login').style.display = 'show';
+            document.getElementById('div_login_info').style.display = 'none';
+
         }
     }
     else {
         console.log('not found token.')
+        document.getElementById('div_login_info').style.display = 'none';
     }
 });
 
@@ -109,6 +117,7 @@ document.getElementById('loginButton').addEventListener('click', function () {
 
                 });
                 document.getElementById('div_login').style.display = 'none';
+                document.getElementById('div_login_info').style.display = 'block';
             }
             else {
                 var loginMessage = document.getElementById('loginMessage');
@@ -118,4 +127,15 @@ document.getElementById('loginButton').addEventListener('click', function () {
         .catch(error => {
             console.error('Error:', error);
         });
+});
+
+document.getElementById('logout').addEventListener('click', function () {
+    // 토큰과 만료 시간 삭제
+    chrome.storage.local.remove(['token', 'token_expire'], function () {
+        console.log('로그아웃 완료');
+        document.getElementById('div_login').style.display = 'block';
+        document.getElementById('div_login_info').style.display = 'none';
+
+
+    });
 });
