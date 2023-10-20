@@ -1,6 +1,7 @@
 var token;
 var expired = true;
-
+//로그인이 되어 있지 않을 때
+//token을 헤더로 넣기
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action == "setTitle") {
 
@@ -114,7 +115,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         const { comic_title, token } = request;
 
         // 이제 comic_title과 token을 사용하여 서버에 요청할 수 있습니다.
-        const url = `https://jmlee4dev.net/extension/get_history_of_title?comic_title=${(comic_title)}&token=${(token)}`;
+        const url = `https://jmlee4dev.net/extension/get_history_of_title?comic_title=${encodeURIComponent(comic_title)}&token=${encodeURIComponent(token)}`;
 
         fetch(url, {
             method: 'GET',
@@ -124,21 +125,18 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                 'Content-Type': 'application/json'
             },
         })
-            .then(response => response.json())
+            .then(response => response.json()) // JSON 형식으로 파싱
             .then(data => {
-                data = JSON.parse(data);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                console.log(data)
-                return response.json();
-            })
-            .then(data => {
-                console.log(data);
+                var result = data.map(function (history) {
+                    return { "title": history.title, "read_at": history.read_at.toString() };
+                });
+                console.log(result)
+                sendResponse(result);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
+        return true; // 비동기 처리를 위해 true를 반환
     }
 });
 

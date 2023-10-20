@@ -1,4 +1,5 @@
-
+//모든 사람이 목록 페이지를 거쳐서 뷰페이지로 이동하지 않음
+//이러나 저러나 크롤링 하면 더 정확해지긴 하는데, 그러고 싶지는 않음
 function appendReadTime(comic_title) {
 
     chrome.storage.local.get(['token', 'token_expire'], async function (result) {
@@ -10,7 +11,10 @@ function appendReadTime(comic_title) {
             const currentTime = new Date();
 
             if (currentTime < expireTime) {
-                chrome.runtime.sendMessage({ action: "getReadHistoryOfTitle", comic_title: comic_title, token: token });
+                chrome.runtime.sendMessage({ action: "getReadHistoryOfTitle", comic_title: comic_title, token: token }, function (response) {
+                    // 서버 응답을 받아 처리합니다.
+                    console.log(response);
+                });
                 // // 토큰이 유효한 경우 API 호출
                 // const url = `https://jmlee4dev.net/extension/get_history_of_title?comic_title=${encodeURIComponent(comic_title)}&token=${encodeURIComponent(token)}`;
                 // console.log(url)

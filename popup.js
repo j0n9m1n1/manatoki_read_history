@@ -1,7 +1,7 @@
 var token;
 var expired = true;
 
-chrome.storage.local.get(['token', 'token_expire'], function (result) {
+chrome.storage.local.get(['email', 'token', 'token_expire'], function (result) {
     token = result.token;
     var expireTimeString = result.token_expire;
     console.log("result.token_expire: " + result.token_expire)
@@ -27,6 +27,7 @@ chrome.storage.local.get(['token', 'token_expire'], function (result) {
                 expired = false;
                 document.getElementById('div_login').style.display = 'none';
                 document.getElementById('div_login_info').style.display = 'show';
+                document.getElementById('login_email').textContent = 'email: ' + result.email;
 
             }
         }
@@ -111,11 +112,13 @@ document.getElementById('loginButton').addEventListener('click', function () {
             console.log("data message: ", data.message)
             if (data.message === "success") {
                 chrome.storage.local.set({
+                    'email': email,
                     'token': data.token,
                     'token_expire': data.token_expire
                 }, function () {
 
                 });
+                document.getElementById('login_email').textContent = 'email: ' + email;
                 document.getElementById('div_login').style.display = 'none';
                 document.getElementById('div_login_info').style.display = 'block';
             }
@@ -131,8 +134,9 @@ document.getElementById('loginButton').addEventListener('click', function () {
 
 document.getElementById('logout').addEventListener('click', function () {
     // 토큰과 만료 시간 삭제
-    chrome.storage.local.remove(['token', 'token_expire'], function () {
+    chrome.storage.local.remove(['email', 'token', 'token_expire'], function () {
         console.log('로그아웃 완료');
+        document.getElementById('login_email').textContent = '';
         document.getElementById('div_login').style.display = 'block';
         document.getElementById('div_login_info').style.display = 'none';
 
