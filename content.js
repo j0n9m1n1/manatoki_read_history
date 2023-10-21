@@ -14,30 +14,29 @@ function appendReadTime(comic_title) {
                 chrome.runtime.sendMessage({ action: "getReadHistoryOfTitle", comic_title: comic_title, token: token }, function (response) {
                     // 서버 응답을 받아 처리합니다.
                     console.log(response);
+
+                    var listItems = document.querySelectorAll('.list-item'); // 모든 list-item 엘리먼트를 가져옵니다.
+
+                    listItems.forEach(function (listItem) {
+                        var dataIndexValue = listItem.getAttribute('data-index');
+                        var wrTitle = listItem.querySelector('.wr-subject a').textContent.trim();
+                        var countElement = listItem.querySelector('.count.orangered.hidden-xs');
+                        var commentCountLength = countElement.textContent.length;
+
+                        wrTitle = wrTitle.substring(commentCountLength, wrTitle.length - commentCountLength).trim()
+                        for (let i = 0; i < response.length; i++) {
+                            let item = response[i];
+                            if (item.title === wrTitle) {
+                                var titleElement = listItem.querySelector('li[data-index="' + dataIndexValue + '"] .wr-subject');
+                                var timeElement = document.createElement('span');
+
+                                timeElement.textContent = ' Read - ' + item.read_at;
+                                titleElement.append(timeElement);
+                            }
+                        }
+                    });
+
                 });
-                // // 토큰이 유효한 경우 API 호출
-                // const url = `https://jmlee4dev.net/extension/get_history_of_title?comic_title=${encodeURIComponent(comic_title)}&token=${encodeURIComponent(token)}`;
-                // console.log(url)
-
-                // try {
-                //     const response = await fetch(url, {
-                //         method: 'GET',
-                //         mode: 'cors',
-                //         headers: {
-                //             'Accept': 'application/json',
-                //             'Content-Type': 'application/json'
-                //         },
-                //     });
-
-                //     if (!response.ok) {
-                //         throw new Error('Network response was not ok');
-                //     }
-
-                //     const data = await response.json();
-                //     console.log(data);
-                // } catch (error) {
-                //     console.error('Error:', error);
-                // }
             } else {
                 console.log('토큰이 만료되었습니다.');
             }
@@ -45,33 +44,6 @@ function appendReadTime(comic_title) {
             console.log('토큰 또는 만료 시간이 없습니다.');
         }
     });
-
-    // var listItems = document.querySelectorAll('.list-item'); // 모든 list-item 엘리먼트를 가져옵니다.
-
-    // listItems.forEach(function (listItem) {
-    //     var dataIndexValue = listItem.getAttribute('data-index');
-    //     var wrTitle = listItem.querySelector('.wr-subject a').textContent.trim();
-    //     var countElement = listItem.querySelector('.count.orangered.hidden-xs');
-    //     var commentCountLength = countElement.textContent.length;
-
-    //     wrTitle = wrTitle.substring(commentCountLength, wrTitle.length - commentCountLength).trim()
-
-    //     chrome.storage.local.get(['titleList'], function (result) {
-    //         var titleList = result.titleList || [];
-
-    //         for (var i = 0; i < titleList.length; i++) {
-    //             if (titleList[i].title === wrTitle) {
-    //                 console.log('stored title: ' + titleList[i].title + ', list title: ' + wrTitle + ', found dataIndexValue: ' + dataIndexValue)
-    //                 var timestamp = titleList[i].timestamp;
-    //                 var titleElement = listItem.querySelector('li[data-index="' + dataIndexValue + '"] .wr-subject');
-    //                 var timeElement = document.createElement('span');
-
-    //                 timeElement.textContent = ' Read - ' + timestamp;
-    //                 titleElement.append(timeElement);
-    //             }
-    //         }
-    //     });
-    // });
 }
 
 async function start() {
