@@ -51,6 +51,24 @@ else {
 
 }
 
+function removeItem(event) {
+    var listItem = event.target.parentElement;
+    var itemTitle = listItem.dataset.title; // 각 항목의 ID 가져오기
+
+    // storage에서도 해당 아이템 삭제
+    chrome.storage.local.get(['titleList'], function (result) {
+        var titleList = result.titleList || [];
+        var updatedList = titleList.filter(function (item) {
+            return item.title !== itemTitle;
+        });
+
+        chrome.storage.local.set({ 'titleList': updatedList }, function () {
+            // storage에서 삭제가 완료되면 UI에서도 삭제
+            listItem.remove();
+        });
+    });
+}
+
 var linkListElement = document.getElementById('linkList');
 
 chrome.storage.local.get(['titleList'], function (result) {
@@ -74,9 +92,14 @@ chrome.storage.local.get(['titleList'], function (result) {
 
         var itemList = groupedByDate[date];
         itemList.forEach(function (item) {
+            var button = document.createElement('button');
+            button.textContent = 'Delete';
             var listItem = document.createElement('li');
-            listItem.textContent = item.timestamp.split(' ')[1] + ' - ' + item.title + ' - ' + item.saved;
+            listItem.textContent = item.timestamp.split(' ')[1] + ' - ' + item.title + ' - ' + item.saved + ' - ';
+            button.addEventListener('click', removeItem);
+
             linkListElement.appendChild(listItem);
+            listItem.appendChild(button);
         });
     }
 });

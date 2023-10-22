@@ -28,7 +28,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                         console.log('토큰은 아직 유효합니다.');
                         expired = false;
                         console.log("read_at: " + request.read_at)
-                        var titleValue = request.titleValue;
+                        var titleValue = request.title;
                         console.log("bg.js title: " + titleValue)
                         // var currentFormattedDateTime = getLocalDateTimeString();
                         var currentFormattedDateTime = request.read_at;
@@ -68,6 +68,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                     for (var i = 0; i < titleList.length; i++) {
                                         if (titleList[i].title === titleValue) {
                                             titleList[i].timestamp = currentFormattedDateTime;
+                                            if (saved_server) {
+                                                titleList[i].saved = saved_server
+                                            }
                                             isDuplicate = true;
                                             break;
                                         }
@@ -173,7 +176,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     }
 });
 
-
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0,
+            v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
 
 function getLocalDateTimeString() {
     var now = new Date();
