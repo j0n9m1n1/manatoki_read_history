@@ -1,8 +1,8 @@
+
 var token;
 var expired = true;
 var saved_server = false;
-//로그인이 되어 있지 않을 때
-//token을 헤더로 넣기
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action == "setTitle") {
 
