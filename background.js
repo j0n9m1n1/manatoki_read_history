@@ -176,6 +176,64 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     }
 });
 
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.action == "delete") {
+        chrome.storage.local.get(['token', 'token_expire'], function (result) {
+            token = result.token;
+            var expireTimeString = result.token_expire;
+            console.log("result.token_expire: " + result.token_expire)
+            // 만료 시간 문자열을 Date 객체로 변환
+            if (token !== null && token !== undefined) {
+                if (expireTimeString !== null && expireTimeString !== undefined) {
+                    var expireTime = new Date(expireTimeString);
+
+                    // 현재 시간을 가져옵니다.
+                    var currentTime = new Date();
+
+                    // 토큰 만료 여부 확인
+                    if (currentTime > expireTime) {
+                        console.log(currentTime + " " + expireTime)
+                        console.log('토큰이 만료 되었습니다.');
+                        expired = true;
+                    } else {
+                        console.log(currentTime + " " + expireTime)
+                        console.log('토큰은 아직 유효합니다.');
+
+                        var formData = {
+                            title: request.itemTitle,
+                            read_at: request.read_at,
+                            token: token
+                        };
+                        var jsonData = JSON.stringify(formData);
+                        console.log("jsonData: " + jsonData)
+
+                        generateUUID()
+
+                        fetch('https://jmlee4dev.net/extension/delete_history', {
+                            method: 'DELETE',
+                            mode: 'cors',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            // body: JSON.stringify(formData)
+                            body: jsonData
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Success:', data);
+                            })
+                            .catch((error) => {
+                                console.error('Error:', error);
+                            });
+                    }
+                }
+            }
+        });
+    }
+
+});
+
+
 function generateUUID() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random() * 16 | 0,
