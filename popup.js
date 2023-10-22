@@ -75,7 +75,7 @@ chrome.storage.local.get(['titleList'], function (result) {
         var itemList = groupedByDate[date];
         itemList.forEach(function (item) {
             var listItem = document.createElement('li');
-            listItem.textContent = item.timestamp.split(' ')[1] + ' - ' + item.title;
+            listItem.textContent = item.timestamp.split(' ')[1] + ' - ' + item.title + ' - ' + item.saved;
             linkListElement.appendChild(listItem);
         });
     }

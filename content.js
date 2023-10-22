@@ -29,6 +29,8 @@ function appendReadTime(comic_title) {
 
                         wrTitle = wrTitle.substring(commentCountLength, wrTitle.length - commentCountLength).trim()
 
+                        var found = false;
+
                         for (let i = 0; i < response.length; i++) {
                             let item = response[i];
                             if (item.title === wrTitle) {
@@ -37,12 +39,23 @@ function appendReadTime(comic_title) {
 
                                 timeElement.textContent = ' Read - ' + item.read_at + ' - ' + item.saved;
                                 titleElement.append(timeElement);
+                                found = true;
+                                console.log("found: " + found)
                                 break;
                             }
                         }
-                        //왜 break 안되는 느낌
-                        if (listItem.classList.contains('bg-gray')) {
+                        if (found === false && listItem.classList.contains('bg-gray')) {
                             console.log("i'm gray, but not in response", listItem, wrTitle)
+                            try {
+                                // const response = await new Promise((resolve, reject) => {
+                                // await new Promise((resolve) => {
+                                chrome.runtime.sendMessage({ action: "setTitle", titleValue: wrTitle, read_at: "1970-01-01 00:00:00" }, function (response) {
+                                    // resolve(response);
+                                });
+                                // });
+                            } catch (error) {
+                                console.error(error);
+                            }
                         }
 
                     });
@@ -84,7 +97,7 @@ async function start() {
                 try {
                     // const response = await new Promise((resolve, reject) => {
                     const response = await new Promise((resolve) => {
-                        chrome.runtime.sendMessage({ action: "setTitle", titleValue: subjectValue }, function (response) {
+                        chrome.runtime.sendMessage({ action: "setTitle", titleValue: subjectValue, read_at: getLocalDateTimeString() }, function (response) {
                             // if (response === null) {
                             //     reject(new Error('응답이 null입니다.'));
                             // } else if (response.success) {
@@ -103,6 +116,18 @@ async function start() {
             console.log('subject 메타 태그를 찾을 수 없습니다.');
         }
     }
+}
+
+function getLocalDateTimeString() {
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = String(now.getMonth() + 1).padStart(2, '0');
+    var day = String(now.getDate()).padStart(2, '0');
+    var hours = String(now.getHours()).padStart(2, '0');
+    var minutes = String(now.getMinutes()).padStart(2, '0');
+    var seconds = String(now.getSeconds()).padStart(2, '0');
+
+    return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
 }
 
 start();

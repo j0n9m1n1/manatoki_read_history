@@ -1,5 +1,6 @@
 var token;
 var expired = true;
+var saved_server = false;
 //로그인이 되어 있지 않을 때
 //token을 헤더로 넣기
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -26,10 +27,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                         console.log(currentTime + " " + expireTime)
                         console.log('토큰은 아직 유효합니다.');
                         expired = false;
-
+                        console.log("read_at: " + request.read_at)
                         var titleValue = request.titleValue;
-                        var currentFormattedDateTime = getLocalDateTimeString();
-
+                        // var currentFormattedDateTime = getLocalDateTimeString();
+                        var currentFormattedDateTime = request.read_at;
+                        console.log("currentFormattedDateTime: " + currentFormattedDateTime)
                         var formData = {
                             title: titleValue,
                             read_at: currentFormattedDateTime,
@@ -49,47 +51,77 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                         })
                             .then(response => response.json())
                             .then(data => {
-                                console.log("data: " + data)
-                                data = JSON.parse(data);
-                                console.log('서버 응답:', data);
+                                console.log("data.message: " + data.message)
+                                if (data.message === "success") {
+                                    saved_server = true;
+                                }
+                                else if (data.message === "fail") {
+                                    saved_server = false;
+                                }
+
+                                chrome.storage.local.get(['titleList'], function (result) {
+                                    var titleList = result.titleList || [];
+
+                                    // 중복된 타이틀 확인 후 업데이트
+                                    var isDuplicate = false;
+                                    for (var i = 0; i < titleList.length; i++) {
+                                        if (titleList[i].title === titleValue) {
+                                            titleList[i].timestamp = currentFormattedDateTime;
+                                            isDuplicate = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (!isDuplicate) {
+                                        // 중복된 타이틀이 아닌 경우에만 추가
+                                        titleList.unshift({
+                                            // uuid: generateUUID(),
+                                            title: titleValue,
+                                            timestamp: currentFormattedDateTime,
+                                            saved: saved_server // 기본값은 false
+                                        });
+                                        sendResponse({ success: true });
+
+                                    }
+
+                                    chrome.storage.local.set({ 'titleList': titleList }, function () {
+                                        // 저장된 목록을 출력
+                                        sendResponse({ success: true });
+                                        // logAllData(titleList);
+                                    });
+                                });
+                                // data = JSON.parse(data);
                                 // 성공적으로 처리된 경우의 코드
                             })
                             .catch(error => {
                                 console.error('에러:', error);
-                                // 에러 발생 시 처리하는 코드
-                            });
+                                saved_server = false;
 
-                        chrome.storage.local.get(['titleList'], function (result) {
-                            var titleList = result.titleList || [];
+                                chrome.storage.local.get(['titleList'], function (result) {
+                                    var titleList = result.titleList || [];
 
-                            // 중복된 타이틀 확인 후 업데이트
-                            var isDuplicate = false;
-                            for (var i = 0; i < titleList.length; i++) {
-                                if (titleList[i].title === titleValue) {
-                                    titleList[i].timestamp = currentFormattedDateTime;
-                                    isDuplicate = true;
-                                    break;
-                                }
-                            }
+                                    var isDuplicate = false;
+                                    for (var i = 0; i < titleList.length; i++) {
+                                        if (titleList[i].title === titleValue) {
+                                            titleList[i].timestamp = currentFormattedDateTime;
+                                            isDuplicate = true;
+                                            break;
+                                        }
+                                    }
 
-                            if (!isDuplicate) {
-                                // 중복된 타이틀이 아닌 경우에만 추가
-                                titleList.unshift({
-                                    // uuid: generateUUID(),
-                                    title: titleValue,
-                                    timestamp: currentFormattedDateTime,
-                                    saved: false // 기본값은 false
+                                    if (!isDuplicate) {
+                                        titleList.unshift({
+                                            title: titleValue,
+                                            timestamp: currentFormattedDateTime,
+                                            saved: saved_server
+                                        });
+                                    }
+
+                                    chrome.storage.local.set({ 'titleList': titleList }, function () {
+                                        sendResponse({ success: true });
+                                    });
                                 });
-                                sendResponse({ success: true });
-
-                            }
-
-                            chrome.storage.local.set({ 'titleList': titleList }, function () {
-                                // 저장된 목록을 출력
-                                sendResponse({ success: true });
-                                // logAllData(titleList);
                             });
-                        });
                     }
                 }
                 else {
@@ -128,7 +160,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             .then(response => response.json()) // JSON 형식으로 파싱
             .then(data => {
                 var result = data.map(function (history) {
-                    return { "title": history.title, "read_at": history.read_at.toString() };
+                    return { "title": history.title, "read_at": history.read_at.toString(), "saved": true };
                 });
                 console.log(result)
                 sendResponse(result);
