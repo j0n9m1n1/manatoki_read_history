@@ -143,3 +143,18 @@ document.getElementById('logout').addEventListener('click', function () {
 
     });
 });
+
+document.getElementById('sync').addEventListener('click', function () {
+    chrome.storage.local.get(['titleList'], function (result) {
+        var titleList = result.titleList || [];
+        for (var i = 0; i < titleList.length; i++) {
+            if (titleList[i].saved === false) {
+                title = titleList[i].title;
+                console.log("sync title: " + i + " " + title)
+                chrome.runtime.sendMessage({ action: "setTitle", title: title, read_at: "1970-01-01 00:00:01" }, function (response) {
+                    console.log(response);
+                });
+            }
+        }
+    });
+});

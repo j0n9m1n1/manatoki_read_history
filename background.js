@@ -29,6 +29,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                         expired = false;
                         console.log("read_at: " + request.read_at)
                         var titleValue = request.titleValue;
+                        console.log("bg.js title: " + titleValue)
                         // var currentFormattedDateTime = getLocalDateTimeString();
                         var currentFormattedDateTime = request.read_at;
                         console.log("currentFormattedDateTime: " + currentFormattedDateTime)
