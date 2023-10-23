@@ -51,7 +51,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                             token: token
                         };
                         var jsonData = JSON.stringify(formData);
-                        console.log(jsonData)
+                        console.log("add_history: " + jsonData)
                         uuid = generateUUID()
                         fetch('https://jmlee4dev.net/extension/add_read_history', {
                             method: 'POST',
@@ -60,8 +60,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                 'Accept': 'application/json',
                                 'Content-Type': 'application/json'
                             },
-                            body: JSON.stringify(formData) // 이 부분을 수정하여 JSON으로 변환
-                            // body: jsonData
+                            // body: JSON.stringify(formData) // 이 부분을 수정하여 JSON으로 변환
+                            body: jsonData
                         })
                             .then(response => response.json())
                             .then(data => {
