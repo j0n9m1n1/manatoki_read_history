@@ -3,6 +3,18 @@ var token;
 var expired = true;
 var saved_server = false;
 
+// chrome.runtime.onMessage.addListener((message) => {
+//     console.log('notification')
+//     if (message.type === "createNotification") {
+//       chrome.notifications.create({
+//         type: "basic",
+//         iconUrl: "saved.png",
+//         title: "알림 제목",
+//         message: "알림 내용"
+//       });
+//     }
+//   });
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action == "setTitle") {
 

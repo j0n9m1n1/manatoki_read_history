@@ -97,7 +97,7 @@ async function start() {
                 try {
                     // const response = await new Promise((resolve, reject) => {
                     const response = await new Promise((resolve) => {
-                        chrome.runtime.sendMessage({ action: "setTitle", titleValue: subjectValue, read_at: getLocalDateTimeString() }, function (response) {
+                        chrome.runtime.sendMessage({ action: "setTitle", title: subjectValue, read_at: getLocalDateTimeString() }, function (response) {
                             // if (response === null) {
                             //     reject(new Error('응답이 null입니다.'));
                             // } else if (response.success) {
@@ -129,5 +129,6 @@ function getLocalDateTimeString() {
 
     return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
 }
+
 
 start();

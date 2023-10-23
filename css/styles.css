@@ -15,3 +15,25 @@ li {
     margin: 0;
     padding: 5px;
 }
+
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+
+.tabs {
+    display: flex;
+}
+
+.tab {
+    cursor: pointer;
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+}
+
+.tab-content {
+    display: none;
+}
