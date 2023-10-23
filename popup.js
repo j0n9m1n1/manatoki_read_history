@@ -1,5 +1,6 @@
 var token;
 var expired = true;
+// chrome.runtime.sendMessage({type: "createNotification"});
 
 chrome.storage.local.get(['email', 'token', 'token_expire'], function (result) {
     token = result.token;
@@ -190,3 +191,9 @@ document.getElementById('sync').addEventListener('click', function () {
         }
     });
 });
+
+
+
+
+
+
