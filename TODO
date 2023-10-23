@@ -2,4 +2,5 @@ token을 헤더로 넣기, autho beaer??
 인증 함수 따로 만들기, 토큰 따고 유효기간 구하고, 추가로 서버에 확인하던가
 모든 response 작업하기, fetch랑 sendmessage들
 put, patch로 바꿔보기, 추가, 업데이트
+popup.html 그냥 list로 바꾸기, 탭 1~5개에 1번째 탭에 넣기
 ec2에서 휴대폰으로 서버 옮기기.., 기능 어느정도 됐다 싶으면
