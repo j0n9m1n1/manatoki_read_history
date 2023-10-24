@@ -1,5 +1,5 @@
 # manatoki_read_history
-For chrome extension
+# For chrome extension
 
 팝업페이지
   회차 타이틀을 N개 요청
