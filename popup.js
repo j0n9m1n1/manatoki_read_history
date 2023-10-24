@@ -1,5 +1,8 @@
 var token;
 var expired = true;
+var div_episodes = document.getElementById("div_episodes");
+var div_comics = document.getElementById("div_comics");
+var div_popularity = document.getElementById("div_popularity");
 // chrome.runtime.sendMessage({type: "createNotification"});
 
 chrome.storage.local.get(['email', 'token', 'token_expire'], function (result) {
@@ -121,6 +124,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('openRegister').addEventListener('click', function () {
         chrome.tabs.create({ url: 'register.html' });
+    });
+
+    document.getElementById('episodes').addEventListener('click', function () {
+        div_episodes.style.display = "block"
+        div_comics.style.display = "none"
+        div_popularity.style.display = "none"
+    });
+
+    document.getElementById('comics').addEventListener('click', function () {
+        div_episodes.style.display = "none"
+        div_comics.style.display = "block"
+        div_popularity.style.display = "none"
+    });
+
+    document.getElementById('popularity').addEventListener('click', function () {
+        div_episodes.style.display = "none"
+        div_comics.style.display = "none"
+        div_popularity.style.display = "block"
     });
 });
 
