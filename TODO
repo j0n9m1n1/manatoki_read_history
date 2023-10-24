@@ -3,9 +3,13 @@ token을 헤더로 넣기, autho beaer??
 모든 response 작업하기, fetch랑 sendmessage들
 put, patch로 바꿔보기, 추가, 업데이트
 ec2에서 서버 옮기기, 기능 어느정도 됐다 싶으면
-읽었던 comic title 제공
+완 - 읽었던 comic title 제공
 당일 순위 제공
+    - 이건 캐시로 들고 있는게 나을 듯? 1, 7, 30일 정도?
+    - 일단 1일만 쿼리해서 top 10 return
 db 내부 암호화
 순위나 comic title 제공할 때 캐시서버 써보기? 의미 없긴한데
 이메일 인증 넣기
 저쪽 서버의 comic의 id나, episode의 id도 전달을 해야할지 고민중
+토큰을 jwt로 바꾸기
+진짜 sqlalchemy따로 공부를 해야할듯, 그냥 sql 치던가...
