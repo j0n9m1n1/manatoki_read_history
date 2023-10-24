@@ -2,6 +2,10 @@ token을 헤더로 넣기, autho beaer??
 인증 함수 따로 만들기, 토큰 따고 유효기간 구하고, 추가로 서버에 확인하던가
 모든 response 작업하기, fetch랑 sendmessage들
 put, patch로 바꿔보기, 추가, 업데이트
-ec2에서 공기계로 서버 옮기기, 기능 어느정도 됐다 싶으면
-comic title 제공
+ec2에서 서버 옮기기, 기능 어느정도 됐다 싶으면
+읽었던 comic title 제공
 당일 순위 제공
+db 내부 암호화
+순위나 comic title 제공할 때 캐시서버 써보기? 의미 없긴한데
+이메일 인증 넣기
+저쪽 서버의 comic의 id나, episode의 id도 전달을 해야할지 고민중

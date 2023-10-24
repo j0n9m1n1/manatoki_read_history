@@ -55,27 +55,30 @@ else {
 
 }
 
+//여기 봐도 봐도 이해X 비동기+비동기에 아이템이 자꾸 바뀌어서
 function removeItem(event) {
     var listItem = event.target.parentElement;
-    console.log("delete listItem: " + listItem)
-    var itemTitle = listItem.title; // 각 항목의 ID 가져오기
-    console.log("delete itemTitle: " + itemTitle)
+    var itemUUID = listItem.id;
 
-    // storage에서도 해당 아이템 삭제
+    // console.log("delete itemUUID: " + itemUUID);
     chrome.storage.local.get(['titleList'], function (result) {
-        var titleList = result.titleList || [];
-        var updatedList = titleList.filter(function (item) {
-            console.log("delete: " + itemTitle)
-            return item.title !== itemTitle;
+        var stored_item = result.titleList || []; // 수정된 부분: result.titleList로 변경
+        var updatedList = stored_item.filter(function (item) {
+            console.log("delete: " + item.title, item.uuid, item.read_at);
+            return item.uuid !== itemUUID; // 수정된 부분: item.title과 itemUUID를 비교
         });
 
         chrome.storage.local.set({ 'titleList': updatedList }, function () {
             // storage에서 삭제가 완료되면 UI에서도 삭제
-            read_at = listItem.dataset.read_at
+            // var target_read_at = listItem.read_at;
+            var target_item = stored_item.find(function (item) {
+                return item.uuid === itemUUID;
+            });
+            var target_title = target_item.title;
             listItem.remove();
-            console.log("delete: " + itemTitle + ", " + read_at)
-            chrome.runtime.sendMessage({ action: "delete", itemTitle: itemTitle, read_at: read_at }, function (response) {
+            console.log("deletedeletedeletedelete: " + target_title);
 
+            chrome.runtime.sendMessage({ action: "delete", title: target_title }, function (response) {
             });
         });
     });
@@ -88,7 +91,7 @@ chrome.storage.local.get(['titleList'], function (result) {
 
     var groupedByDate = {};
     titleList.forEach(function (item) {
-        var date = item.timestamp.split(' ')[0]; // 날짜 부분만 추출
+        var date = item.read_at.split(' ')[0]; // 날짜 부분만 추출
 
         if (!groupedByDate[date]) {
             groupedByDate[date] = [];
@@ -107,11 +110,17 @@ chrome.storage.local.get(['titleList'], function (result) {
             var button = document.createElement('button');
             button.textContent = 'Delete';
             var listItem = document.createElement('li');
-            listItem.textContent = item.timestamp.split(' ')[1] + ' - ' + item.title + ' - ' + item.saved + ' - ';
+            listItem.id = item.uuid
+            listItem.textContent = item.read_at.split(' ')[1] + ' - ' + item.title + ' - ' + item.saved + ' - ';
             button.addEventListener('click', removeItem);
 
             linkListElement.appendChild(listItem);
             listItem.appendChild(button);
+
+            // console.log(button.parentNode)
+            // console.log(button.parentNode.uuid)
+            // console.log(button.parentNode.parentNode)
+            // console.log(button.parentNode.parentNode.uuid)
 
         });
     }

@@ -49,8 +49,9 @@ function appendReadTime(comic_title) {
                             try {
                                 // const response = await new Promise((resolve, reject) => {
                                 // await new Promise((resolve) => {
-                                chrome.runtime.sendMessage({ action: "setTitle", titleValue: wrTitle, read_at: "1970-01-01 00:00:00" }, function (response) {
+                                chrome.runtime.sendMessage({ action: "setTitle", title: wrTitle, read_at: "1970-01-01 00:00:00" }, function (response) {
                                     // resolve(response);
+                                    // 응답 받으면 여기서 또 받은걸 append해주면 될 듯
                                 });
                                 // });
                             } catch (error) {

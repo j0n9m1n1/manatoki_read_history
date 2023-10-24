@@ -51,7 +51,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                             token: token
                         };
                         var jsonData = JSON.stringify(formData);
-                        console.log(jsonData)
+                        console.log("add_history: " + jsonData)
+                        uuid = generateUUID()
                         fetch('https://jmlee4dev.net/extension/add_read_history', {
                             method: 'POST',
                             mode: 'cors',
@@ -59,8 +60,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                 'Accept': 'application/json',
                                 'Content-Type': 'application/json'
                             },
-                            body: JSON.stringify(formData) // 이 부분을 수정하여 JSON으로 변환
-                            // body: jsonData
+                            // body: JSON.stringify(formData) // 이 부분을 수정하여 JSON으로 변환
+                            body: jsonData
                         })
                             .then(response => response.json())
                             .then(data => {
@@ -79,7 +80,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                     var isDuplicate = false;
                                     for (var i = 0; i < titleList.length; i++) {
                                         if (titleList[i].title === titleValue) {
-                                            titleList[i].timestamp = currentFormattedDateTime;
+                                            titleList[i].read_at = currentFormattedDateTime;
                                             if (saved_server) {
                                                 titleList[i].saved = saved_server
                                             }
@@ -91,9 +92,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                     if (!isDuplicate) {
                                         // 중복된 타이틀이 아닌 경우에만 추가
                                         titleList.unshift({
-                                            // uuid: generateUUID(),
+                                            uuid: uuid,
                                             title: titleValue,
-                                            timestamp: currentFormattedDateTime,
+                                            read_at: currentFormattedDateTime,
                                             saved: saved_server // 기본값은 false
                                         });
                                         sendResponse({ success: true });
@@ -119,7 +120,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                     var isDuplicate = false;
                                     for (var i = 0; i < titleList.length; i++) {
                                         if (titleList[i].title === titleValue) {
-                                            titleList[i].timestamp = currentFormattedDateTime;
+                                            titleList[i].read_at = currentFormattedDateTime;
                                             isDuplicate = true;
                                             break;
                                         }
@@ -127,8 +128,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
                                     if (!isDuplicate) {
                                         titleList.unshift({
+                                            uuid: uuid,
                                             title: titleValue,
-                                            timestamp: currentFormattedDateTime,
+                                            read_at: currentFormattedDateTime,
                                             saved: saved_server
                                         });
                                     }
@@ -212,8 +214,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                         console.log('토큰은 아직 유효합니다.');
 
                         var formData = {
-                            title: request.itemTitle,
-                            read_at: request.read_at,
+                            title: request.title,
                             token: token
                         };
                         var jsonData = JSON.stringify(formData);
@@ -270,7 +271,7 @@ function logAllData(data) {
     for (var i = 0; i < data.length; i++) {
         console.log('uuid ' + i + ': ' + data[i].uuid);
         console.log('Title ' + i + ': ' + data[i].title);
-        console.log('Timestamp ' + i + ': ' + data[i].timestamp);
+        console.log('Timestamp ' + i + ': ' + data[i].read_at);
         console.log('saved ' + i + ': ' + data[i].saved);
     }
 }
