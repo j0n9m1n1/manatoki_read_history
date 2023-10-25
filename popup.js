@@ -157,8 +157,14 @@ document.addEventListener('DOMContentLoaded', function () {
     
             for (let title in parsed_json) {
                 if (parsed_json.hasOwnProperty(title)) {
+                    var button = document.createElement('button');
+                    button.textContent = 'Delete';
+                    button.addEventListener('click', removeItem);
                     var listItem = document.createElement('li');
+                    listItem.id = generateUUID()
                     listItem.textContent = parsed_json[title] + ' - ' + title;
+                    listItem.appendChild(button);
+
                     console.log('listItem: ' + listItem)
                     episodeListElement.appendChild(listItem);
                 }
