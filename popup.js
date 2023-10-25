@@ -55,7 +55,6 @@ else {
 
 }
 
-//여기 봐도 봐도 이해X 비동기+비동기에 아이템이 자꾸 바뀌어서
 function removeItem(event) {
     var listItem = event.target.parentElement;
     var itemUUID = listItem.id;
@@ -87,43 +86,66 @@ function removeItem(event) {
 var linkListElement = document.getElementById('linkList');
 
 chrome.storage.local.get(['titleList'], function (result) {
-    var titleList = result.titleList || [];
+    // var titleList = result.titleList || [];
 
-    var groupedByDate = {};
-    titleList.forEach(function (item) {
-        var date = item.read_at.split(' ')[0]; // 날짜 부분만 추출
+    // var groupedByDate = {};
+    // titleList.forEach(function (item) {
+    //     var date = item.read_at.split(' ')[0]; // 날짜 부분만 추출
 
-        if (!groupedByDate[date]) {
-            groupedByDate[date] = [];
-        }
+    //     if (!groupedByDate[date]) {
+    //         groupedByDate[date] = [];
+    //     }
 
-        groupedByDate[date].push(item);
-    });
+    //     groupedByDate[date].push(item);
+    // });
 
-    for (var date in groupedByDate) {
-        var dateHeader = document.createElement('h2');
-        dateHeader.textContent = date;
-        linkListElement.appendChild(dateHeader);
+    // for (var date in groupedByDate) {
+    //     var dateHeader = document.createElement('h2');
+    //     dateHeader.textContent = date;
+    //     linkListElement.appendChild(dateHeader);
 
-        var itemList = groupedByDate[date];
-        itemList.forEach(function (item) {
-            var button = document.createElement('button');
-            button.textContent = 'Delete';
-            var listItem = document.createElement('li');
-            listItem.id = item.uuid
-            listItem.textContent = item.read_at.split(' ')[1] + ' - ' + item.title + ' - ' + item.saved + ' - ';
-            button.addEventListener('click', removeItem);
+    //     var itemList = groupedByDate[date];
+    //     itemList.forEach(function (item) {
+    //         var button = document.createElement('button');
+    //         button.textContent = 'Delete';
+    //         var listItem = document.createElement('li');
+    //         listItem.id = item.uuid
+    //         listItem.textContent = item.read_at.split(' ')[1] + ' - ' + item.title + ' - ' + item.saved + ' - ';
+    //         button.addEventListener('click', removeItem);
 
-            linkListElement.appendChild(listItem);
-            listItem.appendChild(button);
+    //         linkListElement.appendChild(listItem);
+    //         listItem.appendChild(button);
 
-            // console.log(button.parentNode)
-            // console.log(button.parentNode.uuid)
-            // console.log(button.parentNode.parentNode)
-            // console.log(button.parentNode.parentNode.uuid)
+    //         // console.log(button.parentNode)
+    //         // console.log(button.parentNode.uuid)
+    //         // console.log(button.parentNode.parentNode)
+    //         // console.log(button.parentNode.parentNode.uuid)
 
+    //     });
+    // }
+    var request_fetch_count = 50
+    const url = `https://jmlee4dev.net/extension/get_episode?token=${encodeURIComponent(token)}&req_count=${encodeURIComponent(request_fetch_count)}`;
+    fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(response => response.json()) // JSON 형식으로 파싱
+        .then(data => {
+            for (let key in data) {
+                if (data.hasOwnProperty(key)) {
+                    let value = data[key];
+                    console.log(`Key: ${key}, Value: ${value}`);
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
-    }
+
 });
 
 document.addEventListener('DOMContentLoaded', function () {
