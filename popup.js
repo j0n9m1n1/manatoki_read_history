@@ -127,22 +127,32 @@ chrome.storage.local.get(['titleList'], function (result) {
     //     });
     // }
     var request_fetch_count = 50
-    const url = `https://jmlee4dev.net/extension/get_episode?token=${encodeURIComponent(token)}&req_count=${encodeURIComponent(request_fetch_count)}`;
+    const url = `https://jmlee4dev.net/extension/get_episode?req_count=${encodeURIComponent(request_fetch_count)}`;
     fetch(url, {
         method: 'GET',
         mode: 'cors',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
     })
         .then(response => response.json()) // JSON 형식으로 파싱
         .then(data => {
-            for (let key in data) {
-                if (data.hasOwnProperty(key)) {
-                    let value = data[key];
-                    console.log(`Key: ${key}, Value: ${value}`);
-                }
+            parsed_json = JSON.parse(data)
+            console.log("get_episode: " + parsed_json)
+
+            var ulElement = document.getElementById('comic_title_list');
+
+            while (ulElement.firstChild) {
+                ulElement.removeChild(ulElement.firstChild);
+            }
+
+            for (var title of parsed_json["comic_title"]) {
+                var listItem = document.createElement('li');
+                console.log(title);
+                listItem.textContent = title;
+                comicTitlesElement.appendChild(listItem);
             }
         })
         .catch(error => {
@@ -170,15 +180,15 @@ document.addEventListener('DOMContentLoaded', function () {
         div_episodes.style.display = "none"
         div_comics.style.display = "block"
         div_popularity.style.display = "none"
-        // const url = `https://jmlee4dev.net/extension/get_history_of_title?comic_title=${encodeURIComponent(comic_title)}&token=${encodeURIComponent(token)}`;
-        const url = `https://jmlee4dev.net/extension/get_comics?token=${encodeURIComponent(token)}`;
+        const url = `https://jmlee4dev.net/extension/get_comics`;
         if (!expired) {
             fetch(url, {
                 method: 'GET',
                 mode: 'cors',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
             })
                 .then(response => response.json()) // JSON 형식으로 파싱

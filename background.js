@@ -48,7 +48,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                         var formData = {
                             title: titleValue,
                             read_at: currentFormattedDateTime,
-                            token: token
                         };
                         var jsonData = JSON.stringify(formData);
                         console.log("add_history: " + jsonData)
@@ -58,7 +57,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                             mode: 'cors',
                             headers: {
                                 'Accept': 'application/json',
-                                'Content-Type': 'application/json'
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
                             },
                             // body: JSON.stringify(formData) // 이 부분을 수정하여 JSON으로 변환
                             body: jsonData
@@ -165,14 +165,15 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         const { comic_title, token } = request;
 
         // 이제 comic_title과 token을 사용하여 서버에 요청할 수 있습니다.
-        const url = `https://jmlee4dev.net/extension/get_history_of_title?comic_title=${encodeURIComponent(comic_title)}&token=${encodeURIComponent(token)}`;
+        const url = `https://jmlee4dev.net/extension/get_history_of_title?comic_title=${encodeURIComponent(comic_title)}`;
 
         fetch(url, {
             method: 'GET',
             mode: 'cors',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
         })
             .then(response => response.json()) // JSON 형식으로 파싱
@@ -215,7 +216,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
                         var formData = {
                             title: request.title,
-                            token: token
                         };
                         var jsonData = JSON.stringify(formData);
                         console.log("jsonData: " + jsonData)
@@ -227,6 +227,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                             mode: 'cors',
                             headers: {
                                 'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
                             },
                             // body: JSON.stringify(formData)
                             body: jsonData
