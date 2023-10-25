@@ -4,6 +4,9 @@ var div_episodes = document.getElementById("div_episodes");
 var div_comics = document.getElementById("div_comics");
 var div_popularity = document.getElementById("div_popularity");
 // chrome.runtime.sendMessage({type: "createNotification"});
+var episodeListElement = document.getElementById('episode_title_list');
+var comicTitlesElement = document.getElementById('comic_title_list');
+var popularityTitleElement = document.getElementById('popularity_episode_list');
 
 chrome.storage.local.get(['email', 'token', 'token_expire'], function (result) {
     token = result.token;
@@ -84,11 +87,8 @@ function removeItem(event) {
     });
 }
 
-var linkListElement = document.getElementById('linkList');
-var comicTitlesElement = document.getElementById('comic_title_list');
-var popularityTitleElement = document.getElementById('popularity_episode_list');
 
-chrome.storage.local.get(['titleList'], function (result) {
+// chrome.storage.local.get(['titleList'], function (result) {
     // var titleList = result.titleList || [];
 
     // var groupedByDate = {};
@@ -126,6 +126,13 @@ chrome.storage.local.get(['titleList'], function (result) {
 
     //     });
     // }
+    
+// });
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
     var request_fetch_count = 50
     const url = `https://jmlee4dev.net/extension/get_episode?req_count=${encodeURIComponent(request_fetch_count)}`;
     fetch(url, {
@@ -139,33 +146,29 @@ chrome.storage.local.get(['titleList'], function (result) {
     })
         .then(response => response.json()) // JSON 형식으로 파싱
         .then(data => {
-            parsed_json = JSON.parse(data)
-            console.log("get_episode: " + parsed_json)
-
-            var ulElement = document.getElementById('comic_title_list');
-
+            console.log(data)
+            let parsed_json = JSON.parse(data)
+            console.log("parsed_json: " + parsed_json)
+            var ulElement = document.getElementById('episode_title_list');
+    
             while (ulElement.firstChild) {
                 ulElement.removeChild(ulElement.firstChild);
             }
-
-            for (var title of parsed_json["comic_title"]) {
-                var listItem = document.createElement('li');
-                console.log(title);
-                listItem.textContent = title;
-                comicTitlesElement.appendChild(listItem);
+    
+            for (let title in parsed_json) {
+                if (parsed_json.hasOwnProperty(title)) {
+                    var listItem = document.createElement('li');
+                    listItem.textContent = parsed_json[title] + ' - ' + title;
+                    console.log('listItem: ' + listItem)
+                    comicTitlesElement.appendChild(listItem);
+                }
             }
         })
         .catch(error => {
             console.error('Error:', error);
         });
 
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    // document.getElementById('openOption').addEventListener('click', function () {
-    //     chrome.tabs.create({ url: 'option.html' });
-    // });
-
+        
     document.getElementById('openRegister').addEventListener('click', function () {
         chrome.tabs.create({ url: 'register.html' });
     });
@@ -174,6 +177,41 @@ document.addEventListener('DOMContentLoaded', function () {
         div_episodes.style.display = "block"
         div_comics.style.display = "none"
         div_popularity.style.display = "none"
+
+        var request_fetch_count = 50
+        const url = `https://jmlee4dev.net/extension/get_episode?req_count=${encodeURIComponent(request_fetch_count)}`;
+        fetch(url, {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        })
+            .then(response => response.json()) // JSON 형식으로 파싱
+            .then(data => {
+                console.log(data)
+                let parsed_json = JSON.parse(data)
+                console.log("parsed_json: " + parsed_json)
+                var ulElement = document.getElementById('episode_title_list');
+
+                while (ulElement.firstChild) {
+                    ulElement.removeChild(ulElement.firstChild);
+                }
+
+                for (let title in parsed_json) {
+                    if (parsed_json.hasOwnProperty(title)) {
+                        var listItem = document.createElement('li');
+                        listItem.textContent = parsed_json[title] + ' - ' + title;
+                        console.log('listItem: ' + listItem)
+                        comicTitlesElement.appendChild(listItem);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     });
 
     document.getElementById('comics').addEventListener('click', function () {
@@ -224,14 +262,15 @@ document.addEventListener('DOMContentLoaded', function () {
         div_comics.style.display = "none"
         div_popularity.style.display = "block"
 
-        const url = `https://jmlee4dev.net/extension/get_popularity_episode?token=${encodeURIComponent(token)}`;
+        const url = `https://jmlee4dev.net/extension/get_popularity_episode`;
         if (!expired) {
             fetch(url, {
                 method: 'GET',
                 mode: 'cors',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
             })
                 .then(response => response.json()) // JSON 형식으로 파싱
