@@ -55,6 +55,7 @@ else {
 
 }
 
+//여기 봐도 봐도 이해X 비동기+비동기에 아이템이 자꾸 바뀌어서
 function removeItem(event) {
     var listItem = event.target.parentElement;
     var itemUUID = listItem.id;
@@ -84,6 +85,8 @@ function removeItem(event) {
 }
 
 var linkListElement = document.getElementById('linkList');
+var comicTitlesElement = document.getElementById('comic_title_list');
+var popularityTitleElement = document.getElementById('popularity_episode_list');
 
 chrome.storage.local.get(['titleList'], function (result) {
     // var titleList = result.titleList || [];
@@ -167,12 +170,86 @@ document.addEventListener('DOMContentLoaded', function () {
         div_episodes.style.display = "none"
         div_comics.style.display = "block"
         div_popularity.style.display = "none"
+        // const url = `https://jmlee4dev.net/extension/get_history_of_title?comic_title=${encodeURIComponent(comic_title)}&token=${encodeURIComponent(token)}`;
+        const url = `https://jmlee4dev.net/extension/get_comics?token=${encodeURIComponent(token)}`;
+        if (!expired) {
+            fetch(url, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(response => response.json()) // JSON 형식으로 파싱
+                .then(data => {
+                    parsed_json = JSON.parse(data)
+                    console.log("get_comic: " + parsed_json)
+
+                    var ulElement = document.getElementById('comic_title_list');
+
+                    while (ulElement.firstChild) {
+                        ulElement.removeChild(ulElement.firstChild);
+                    }
+
+                    for (var title of parsed_json["comic_title"]) {
+                        var listItem = document.createElement('li');
+                        console.log(title);
+                        listItem.textContent = title;
+                        comicTitlesElement.appendChild(listItem);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            return true; // 비동기 처리를 위해 true를 반환
+        }
+        else {
+            console.log('expired token.');
+        }
     });
 
     document.getElementById('popularity').addEventListener('click', function () {
         div_episodes.style.display = "none"
         div_comics.style.display = "none"
         div_popularity.style.display = "block"
+
+        const url = `https://jmlee4dev.net/extension/get_popularity_episode?token=${encodeURIComponent(token)}`;
+        if (!expired) {
+            fetch(url, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(response => response.json()) // JSON 형식으로 파싱
+                .then(data => {
+                    parsed_json = JSON.parse(data);
+                    console.log("get_popularity_episode: " + parsed_json);
+                    // console.log(get_popularity_episode);
+                    var ulElement = document.getElementById('popularity_episode_list');
+
+                    while (ulElement.firstChild) {
+                        ulElement.removeChild(ulElement.firstChild);
+                    }
+
+                    for (var key in parsed_json) {
+                        var listItem = document.createElement('li');
+                        console.log(key);
+                        listItem.textContent = key + ", " + parsed_json[key];
+                        popularityTitleElement.appendChild(listItem);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            return true; // 비동기 처리를 위해 true를 반환
+        }
+        else {
+            console.log('expired token.');
+        }
     });
 });
 
