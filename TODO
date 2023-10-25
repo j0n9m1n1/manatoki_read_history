@@ -1,4 +1,4 @@
-token을 헤더로 넣기, autho beaer??
+완 - token을 헤더로 넣기, autho beaer??
 인증 함수 따로 만들기, 토큰 따고 유효기간 구하고, 추가로 서버에 확인하던가
 모든 response 작업하기, fetch랑 sendmessage들
 put, patch로 바꿔보기, 추가, 업데이트
@@ -13,5 +13,8 @@ db 내부 암호화
 저쪽 서버의 comic의 id나, episode의 id도 전달을 해야할지 고민중
 토큰을 jwt로 바꾸기
 진짜 sqlalchemy따로 공부를 해야할듯, 그냥 sql 치던가...
-로컬 저장을 해야할까, 그냥 전부 db 보도록 할까 생각중
+완 - 로컬 저장을 해야할까, 그냥 전부 db 보도록 할까 생각중
+        - 로컬 저장 X
 fetch 쓰는거 전부 bg.js로 옮길까 생각 중임
+서버 연결 실패 시 notification 주기?
+        - 입장 바꿔도 노티가 짜증나서 고민중
