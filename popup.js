@@ -16,7 +16,7 @@ check_my_token().then(() => {
         var request_fetch_count = 50
         get_episode_titles(episodeTitleElement, request_fetch_count);
 
-        document.getElementById('openRegister').addEventListener('click', function () {
+        document.getElementById('register').addEventListener('click', function () {
             chrome.tabs.create({ url: 'register.html' });
         });
 
@@ -44,6 +44,16 @@ check_my_token().then(() => {
 
     document.getElementById('logout').addEventListener('click', function () {
         logout();
+    });
+
+    document.getElementById('unregister').addEventListener('click', function () {
+        var answer = confirm("탈퇴 시 계정과 기록이 삭제됩니다.\n탈퇴 할까요?");
+
+        if (answer) {
+            unregister();
+        } else {
+
+        }
     });
 }).catch((error) => {
     console.error(error);
@@ -144,6 +154,31 @@ function logout() {
         check_my_token();
         console.log('로그아웃 완료');
     });
+}
+
+function unregister() {
+    if (!expired && expired != undefined && token !== "" && token != undefined) {
+        fetch('https://jmlee4dev.net/extension/unregister', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "success") {
+                    logout();
+                }
+                else {
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
 }
 
 function switch_div(menu_name) {
