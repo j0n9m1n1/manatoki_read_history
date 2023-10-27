@@ -7,36 +7,38 @@ var div_comics = document.getElementById("div_comics");
 var div_popularity = document.getElementById("div_popularity");
 
 check_my_token().then(() => {
+    console.log('after resolve()')
 
-    document.addEventListener('DOMContentLoaded', function () {
-        var episodeTitleElement = document.getElementById('episode_title_list');
-        var comicTitlesElement = document.getElementById('comic_title_list');
-        var popularityTitleElement = document.getElementById('popularity_episode_list');
+    // document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOMContentLoaded')
+    var episodeTitleElement = document.getElementById('episode_title_list');
+    var comicTitlesElement = document.getElementById('comic_title_list');
+    var popularityTitleElement = document.getElementById('popularity_episode_list');
 
-        var request_fetch_count = 50
+    var request_fetch_count = 50
+    get_episode_titles(episodeTitleElement, request_fetch_count);
+
+    document.getElementById('register').addEventListener('click', function () {
+        chrome.tabs.create({ url: 'register.html' });
+    });
+
+    document.getElementById('episodes').addEventListener('click', function () {
+        switch_div('episodes');
+        console.log('episodes')
         get_episode_titles(episodeTitleElement, request_fetch_count);
 
-        document.getElementById('register').addEventListener('click', function () {
-            chrome.tabs.create({ url: 'register.html' });
-        });
-
-        document.getElementById('episodes').addEventListener('click', function () {
-            switch_div('episodes');
-
-            get_episode_titles(episodeTitleElement, request_fetch_count);
-
-        });
-
-        document.getElementById('comics').addEventListener('click', function () {
-            switch_div('comics');
-            get_comic_titles(comicTitlesElement);
-        });
-
-        document.getElementById('popularity').addEventListener('click', function () {
-            switch_div('popularity');
-            get_popularity_episode_titles(popularityTitleElement);
-        });
     });
+
+    document.getElementById('comics').addEventListener('click', function () {
+        switch_div('comics');
+        get_comic_titles(comicTitlesElement);
+    });
+
+    document.getElementById('popularity').addEventListener('click', function () {
+        switch_div('popularity');
+        get_popularity_episode_titles(popularityTitleElement);
+    });
+    // });
 
     document.getElementById('loginButton').addEventListener('click', function () {
         login();
@@ -101,6 +103,7 @@ function check_my_token() {
                 document.getElementById('div_login').style.display = 'block';
                 document.getElementById('div_login_info').style.display = 'none';
             }
+            console.log('before resolve()')
             resolve();
         });
     });
