@@ -1,21 +1,32 @@
 완 - token을 헤더로 넣기, autho beaer??
-인증 함수 따로 만들기, 토큰 따고 유효기간 구하고, 추가로 서버에 확인하던가
-모든 response 작업하기, fetch랑 sendmessage들
-put, patch로 바꿔보기, 추가, 업데이트
-ec2에서 서버 옮기기, 기능 어느정도 됐다 싶으면
+완 - 인증 함수 따로 만들기, 토큰 따고 유효기간 구하고, 추가로 서버에 확인하던가
+        - 서버 확인은 안 함
+
 완 - 읽었던 comic title 제공
 완 - 당일 순위 제공
         - 이건 캐시로 들고 있는게 나을 듯? 1, 7, 30일 정도?
         - 일단 1일만 쿼리해서 top 10 return
-User 테이블 이메일 및 패스워드 암호화
+
+완 - User 테이블 이메일 및 패스워드 암호화
+        - pw만 해싱함
+
+완 - 토큰을 jwt로 바꾸기
+        - 토큰 자체가 json으로 정보가 좀 있는데, 딱히?? 
+        - plain uuid4에서 key로 해싱 하는 정도만
+        - 근데 이거 해싱할 필요가 있나 싶긴한데, 그냥
+
+완 - 로컬 저장을 해야할까, 그냥 전부 db 보도록 할까 생각중
+        - 로컬 저장 X
+
+unregister시 redis에서 token 삭제 해야함
+로컬 저장 안함에 따라서 Import, Export 기능 바꾸기
+fetch 쓰는거 전부 bg.js로 옮길까 생각 중임
+서버 연결 실패 시 notification 주기?
 순위나 comic title 제공할 때 캐시서버 써보기? 의미 없긴한데
 이메일 인증 넣기
 google login 넣어볼까 말까
 저쪽 서버의 comic의 id나, episode의 id도 전달을 해야할지 고민중
-토큰을 jwt로 바꾸기
+모든 response 작업하기, fetch랑 sendmessage들
+put, patch로 바꿔보기, 추가, 업데이트
+ec2에서 서버 옮기기, 기능 어느정도 됐다 싶으면
 진짜 sqlalchemy따로 공부를 해야할듯, 그냥 sql 치던가...
-완 - 로컬 저장을 해야할까, 그냥 전부 db 보도록 할까 생각중
-        - 로컬 저장 X
-로컬 저장 안함에 따라서 Import, Export 기능 바꾸기
-fetch 쓰는거 전부 bg.js로 옮길까 생각 중임
-서버 연결 실패 시 notification 주기?

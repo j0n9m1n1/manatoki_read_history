@@ -47,10 +47,10 @@ check_my_token().then(() => {
     });
 
     document.getElementById('unregister').addEventListener('click', function () {
-        var answer = confirm("탈퇴 시 계정과 기록이 삭제됩니다.\n탈퇴 할까요?");
+        let userInput = prompt("탈퇴 시 계정과 기록이 삭제됩니다.\n탈퇴를 원하면 패스워드를 입력 후 확인 버튼을 눌러주세요.", "your password");
 
-        if (answer) {
-            unregister();
+        if (userInput) {
+            unregister(userInput);
         } else {
 
         }
@@ -151,12 +151,31 @@ function login() {
 
 function logout() {
     chrome.storage.local.remove(['email', 'token', 'token_expire'], function () {
+        fetch('https://jmlee4dev.net/extension/logout', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "success") {
+                }
+                else {
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         check_my_token();
         console.log('로그아웃 완료');
     });
 }
 
-function unregister() {
+function unregister(userInput) {
     if (!expired && expired != undefined && token !== "" && token != undefined) {
         fetch('https://jmlee4dev.net/extension/unregister', {
             method: 'POST',
@@ -166,6 +185,7 @@ function unregister() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
+            body: JSON.stringify({ password: userInput })
         })
             .then(response => response.json())
             .then(data => {
