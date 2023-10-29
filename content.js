@@ -132,5 +132,6 @@ function getLocalDateTimeString() {
     return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
 }
 
-
-start();
+document.addEventListener('DOMContentLoaded', function () {
+    start();
+});

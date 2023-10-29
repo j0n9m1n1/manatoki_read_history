@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
 
 * {
-    font-family: 'Roboto';
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 #linkList {
@@ -9,7 +9,7 @@
 }
 
 .login {
-    font-size: 14px;
+    font-size: 16px;
     /* font-weight: 500; */
     padding: 5px;
 }
@@ -30,6 +30,14 @@ body {
     padding: 11px;
     box-shadow: 0 2px 16px rgba(0, 0, 0, .1);
     border-radius: 20px;
+}
+
+.btn {
+    background-color: #deeeff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    /* font-weight: bold; */
 }
 
 .tab_box {
@@ -59,7 +67,7 @@ body {
 
 .line {
     position: absolute;
-    top: 39px;
+    top: 43px;
     left: 1px;
     width: 85px;
     height: 3px;

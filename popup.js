@@ -270,6 +270,7 @@ function get_episode_titles(episodeTitleElement, request_fetch_count) {
                     if (parsed_json.hasOwnProperty(title)) {
                         var button = document.createElement('button');
                         button.textContent = 'Delete';
+                        button.className = 'btn';
                         button.addEventListener('click', removeItem);
                         var listItem = document.createElement('li');
                         listItem.textContent = parsed_json[title] + ' - ' + title + '  ';
