@@ -6,6 +6,24 @@ var div_episodes = document.getElementById("div_episodes");
 var div_comics = document.getElementById("div_comics");
 var div_popularity = document.getElementById("div_popularity");
 
+const tabs = document.querySelectorAll('.tab_btn');
+const all_content = document.querySelectorAll('.content');
+
+tabs.forEach((tab, index) => {
+    tab.addEventListener('click', (e) => {
+        tabs.forEach(tab => { tab.classList.remove('active') })
+        tab.classList.add('active')
+
+        var line = document.querySelector('.line');
+        line.style.width = e.target.offsetWidth + "px";
+        line.style.left = e.target.offsetLeft + "px";
+
+        all_content.forEach(content => { content.classList.remove('active') });
+        all_content[index].classList.add('active');
+    });
+
+})
+
 check_my_token().then(() => {
     console.log('after resolve()')
 
@@ -23,19 +41,19 @@ check_my_token().then(() => {
     });
 
     document.getElementById('episodes').addEventListener('click', function () {
-        switch_div('episodes');
+        // switch_div('episodes');
         console.log('episodes')
         get_episode_titles(episodeTitleElement, request_fetch_count);
 
     });
 
     document.getElementById('comics').addEventListener('click', function () {
-        switch_div('comics');
+        // switch_div('comics');
         get_comic_titles(comicTitlesElement);
     });
 
     document.getElementById('popularity').addEventListener('click', function () {
-        switch_div('popularity');
+        // switch_div('popularity');
         get_popularity_episode_titles(popularityTitleElement);
     });
     // });
@@ -113,6 +131,8 @@ function login() {
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
 
+    // chrome.runtime.sendMessage({ action: "login", email: email, password: password }, function (response) {
+    // });
     fetch('https://jmlee4dev.net/extension/login', {
         method: 'POST',
         mode: 'cors',
@@ -124,7 +144,7 @@ function login() {
     })
         .then(response => response.json())
         .then(data => {
-            data = JSON.parse(data);
+            // data = JSON.parse(data);
             console.log(data.token)
             console.log(data.token_expire)
             console.log("data message: ", data.message)
@@ -181,7 +201,7 @@ function logout() {
 function unregister(userInput) {
     if (!expired && expired != undefined && token !== "" && token != undefined) {
         fetch('https://jmlee4dev.net/extension/unregister', {
-            method: 'POST',
+            method: 'DELETE',
             mode: 'cors',
             headers: {
                 'Accept': 'application/json',
@@ -204,24 +224,24 @@ function unregister(userInput) {
     }
 }
 
-function switch_div(menu_name) {
+// function switch_div(menu_name) {
 
-    if (menu_name == "episodes") {
-        div_episodes.style.display = "block"
-        div_comics.style.display = "none"
-        div_popularity.style.display = "none"
-    }
-    else if (menu_name == "comics") {
-        div_episodes.style.display = "none"
-        div_comics.style.display = "block"
-        div_popularity.style.display = "none"
-    }
-    else if (menu_name == "popularity") {
-        div_episodes.style.display = "none"
-        div_comics.style.display = "none"
-        div_popularity.style.display = "block"
-    }
-}
+//     if (menu_name == "episodes") {
+//         div_episodes.style.display = "block"
+//         div_comics.style.display = "none"
+//         div_popularity.style.display = "none"
+//     }
+//     else if (menu_name == "comics") {
+//         div_episodes.style.display = "none"
+//         div_comics.style.display = "block"
+//         div_popularity.style.display = "none"
+//     }
+//     else if (menu_name == "popularity") {
+//         div_episodes.style.display = "none"
+//         div_comics.style.display = "none"
+//         div_popularity.style.display = "block"
+//     }
+// }
 
 function get_episode_titles(episodeTitleElement, request_fetch_count) {
     if (!expired && expired != undefined && token !== "" && token != undefined) {
@@ -252,7 +272,7 @@ function get_episode_titles(episodeTitleElement, request_fetch_count) {
                         button.textContent = 'Delete';
                         button.addEventListener('click', removeItem);
                         var listItem = document.createElement('li');
-                        listItem.textContent = parsed_json[title] + ' - ' + title + ' ';
+                        listItem.textContent = parsed_json[title] + ' - ' + title + '  ';
                         listItem.appendChild(button);
 
                         console.log('listItem: ' + listItem)
@@ -319,20 +339,27 @@ function get_popularity_episode_titles(popularityTitleElement) {
         })
             .then(response => response.json()) // JSON 형식으로 파싱
             .then(data => {
-                parsed_json = JSON.parse(data);
-                console.log("get_popularity_episode: " + parsed_json);
-                // console.log(get_popularity_episode);
-                var ulElement = document.getElementById('popularity_episode_list');
-
-                while (ulElement.firstChild) {
-                    ulElement.removeChild(ulElement.firstChild);
-                }
-
-                for (var key in parsed_json) {
+                if (data.message === "not found today") {
                     var listItem = document.createElement('li');
-                    console.log(key);
-                    listItem.textContent = key + ", " + parsed_json[key];
+                    listItem.textContent = "Not found today"
                     popularityTitleElement.appendChild(listItem);
+                }
+                else {
+                    parsed_json = JSON.parse(data);
+                    console.log("get_popularity_episode: " + parsed_json);
+                    // console.log(get_popularity_episode);
+                    var ulElement = document.getElementById('popularity_episode_list');
+
+                    while (ulElement.firstChild) {
+                        ulElement.removeChild(ulElement.firstChild);
+                    }
+
+                    for (var key in parsed_json) {
+                        var listItem = document.createElement('li');
+                        console.log(key);
+                        listItem.textContent = key + ", " + parsed_json[key];
+                        popularityTitleElement.appendChild(listItem);
+                    }
                 }
             })
             .catch(error => {

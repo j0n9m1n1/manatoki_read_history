@@ -8,6 +8,7 @@ var saved_server = false;
 check_my_token().then(() => {
 
     chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+
         if (!expired) {
             if (request.action == "setTitle") {
                 var titleValue = request.title;
@@ -96,11 +97,13 @@ check_my_token().then(() => {
                     .then(response => response.json())
                     .then(data => {
                         console.log('Success:', data);
+
                     })
                     .catch((error) => {
                         console.error('Error:', error);
                     });
             }
+
         }
         else {
             console.log('토큰이 만료돼서 다시 로그인 해주세요.')

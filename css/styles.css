@@ -1,14 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+* {
+    font-family: 'Roboto';
+}
+
 #linkList {
     overflow-x: auto;
 }
 
-body {
-    width: 450px;
+.login {
+    font-size: 14px;
+    /* font-weight: 500; */
+    padding: 5px;
 }
+
+
+body {
+    /* width: 450px; */
+    background-color: #deeeff;
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    height: 10;
+}
+
+.container {
+    width: 500px;
+    background-color: white;
+    padding: 11px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, .1);
+    border-radius: 20px;
+}
+
+.tab_box {
+    width: 100%;
+    /* display: flex; */
+    /* justify-content: space-around; */
+    /* align-items: center; */
+    border-bottom: 2px solid rgba(229, 229, 229);
+    position: relative;
+
+}
+
+.tab_box .tab_btn {
+    font-size: 18px;
+    font-weight: 600;
+    color: #919191;
+    background: none;
+    border: none;
+    padding: 9px;
+    cursor: pointer;
+
+}
+
+.tab_box .tab_btn.active {
+    color: #7360ff;
+}
+
+.line {
+    position: absolute;
+    top: 39px;
+    left: 1px;
+    width: 85px;
+    height: 3px;
+    background-color: #7360ff;
+    border-radius: 10px;
+    transition: all .3s ease-in-out;
+}
+
+.content_box {
+    padding: 5px;
+}
+
+.content_box .content {
+    display: none;
+    animation: moving .5s ease;
+}
+
+.content_box .content.active {
+    display: block;
+}
+
+.content_box .content h2 {
+    margin-bottom: 10px;
+}
+
+@keyframes moving {
+    from {
+        transform: translateX(50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+}
+
+
 
 ul {
     list-style: none;
     padding: 0;
+
 }
 
 li {
@@ -19,6 +113,7 @@ li {
 .tab-content {
     display: none;
 }
+
 .tab-content.active {
     display: block;
 }

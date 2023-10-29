@@ -9,46 +9,54 @@
 </head>
 
 <body>
+    <div class="container">
+        <div class="login" id="div_login">
+            <label id="lab_email" for="email" style="width:15%">Email</label>
+            <input type="text" id="email" name="email" value="test@test.com" style="width:25%" required>
 
-    <div id="div_login">
-        <label id="lab_email" for="email" style="width:15%">email</label>
-        <input type="text" id="email" name="email" value="test@test.com" style="width:25%" required>
+            <label id="lab_password" for="password" style="width:15%">PW</label>
+            <input type="password" id="password" name="password" value="testPW" style="width:25%" required>
 
-        <label id="lab_password" for="password" style="width:15%">pw</label>
-        <input type="password" id="password" name="password" value="testPW" style="width:25%" required>
-
-        <button type="submit" id="loginButton" style="width:15%">Login</button>
-        <button id="register" style="width:15%">Register</button>
-
-    </div>
-    <div id="div_login_info">
-        <label id="login_email">e-mail: </label>
-        <button id="logout">Logout</button>
-        <button id="unregister">회원 탈퇴</button>
-        <!-- <button id="sync">Sync</button> -->
+            <button type="submit" id="loginButton" style="width:15%">Login</button>
+            <button id="register" style="width:15%">Register</button>
+        </div>
+        <div class="login" id="div_login_info">
+            <label id="login_email">Email: </label>
+            <button id="logout">Logout</button>
+            <button id="unregister">회원 탈퇴</button>
+            <!-- <button id="sync">Sync</button> -->
+        </div>
     </div>
     <p id="loginMessage"></p>
 
-    <button id="episodes">episodes</button>
-    <button id="comics">comics</button>
-    <button id="popularity">popularity</button>
-
-    <div id="div_episodes" style="display:block;">
-        <div id="div_episodes_title">
-            <ul id="episode_title_list"></ul>
+    <div class="container">
+        <div class="tab_box">
+            <button class="tab_btn active" id="episodes">Episode</button>
+            <button class="tab_btn" id="comics">Comic</button>
+            <button class="tab_btn" id="popularity">Popularity</button>
+            <div class="line"></div>
+        </div>
+        <div class="content_box">
+            <!-- <div class="content active" id="div_episodes" style="display:block;"> -->
+            <div class="content active" id="div_episodes">
+                <!-- <div id="div_episodes_title"> -->
+                <ul id="episode_title_list"></ul>
+                <!-- </div> -->
+            </div>
+            <!-- <div class="content" id="div_comics" style="display:none;"> -->
+            <div class="content" id="div_comics">
+                <!-- <div id="div_comic_titles"> -->
+                <ul id="comic_title_list"></ul>
+                <!-- </div> -->
+            </div>
+            <!-- <div class="content" id="div_popularity" style="display:none;"> -->
+            <div class="content" id="div_popularity">
+                <!-- <div id="div_popularity_episode"> -->
+                <ul id="popularity_episode_list"></ul>
+                <!-- </div> -->
+            </div>
         </div>
     </div>
-    <div id="div_comics" style="display:none;">
-        <div id="div_comic_titles">
-            <ul id="comic_title_list"></ul>
-        </div>
-    </div>
-    <div id="div_popularity" style="display:none;">
-        <div id="div_popularity_episode">
-            <ul id="popularity_episode_list"></ul>
-        </div>
-    </div>
-
 
     <script src="popup.js"></script>
 
