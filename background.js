@@ -66,11 +66,11 @@ check_my_token().then(() => {
                 })
                     .then(response => response.json()) // JSON 형식으로 파싱
                     .then(data => {
-                        var result = data.map(function (history) {
-                            return { "title": history.title, "read_at": history.read_at.toString(), "saved": true };
-                        });
-                        console.log(result)
-                        sendResponse(result);
+                        // var result = data.map(function (history) {
+                        //     return { "title": history.title, "read_at": history.read_at.toString(), "saved": true };
+                        // });
+                        console.log(data)
+                        sendResponse(data);
                     })
                     .catch(error => {
                         console.error('Error:', error);

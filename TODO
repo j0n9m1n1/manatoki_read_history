@@ -21,6 +21,7 @@
 완 - unregister시 redis에서 token 삭제 해야함
 완 - put, patch로 바꿔보기, 추가, 업데이트
         - 해봤자 delete 정도
+완 - tab control
 
 로컬 저장 안함에 따라서 Import, Export 기능 바꾸기
 ? - fetch 쓰는거 전부 bg.js로 옮길까 생각 중임
