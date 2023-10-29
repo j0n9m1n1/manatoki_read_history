@@ -255,7 +255,7 @@ function get_episode_titles(episodeTitleElement, request_fetch_count) {
                 'Authorization': `Bearer ${token}`
             },
         })
-            .then(response => response.json()) // JSON 형식으로 파싱
+            .then(response => response.json())
             .then(data => {
                 console.log(data)
                 let parsed_json = JSON.parse(data)

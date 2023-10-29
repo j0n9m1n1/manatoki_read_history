@@ -2,6 +2,17 @@
 //이러나 저러나 크롤링 하면 더 정확해지긴 하는데, 그러고 싶지는 않음
 //서버에 이미 저장 된 것, 안 된 것
 // for listall{ for json }
+
+var styleElement = document.createElement('style');
+
+// 스타일 시트 내용을 설정합니다.
+styleElement.textContent = `
+  .bg-saved {
+    background-color: #FFC0CB;
+  }
+`;
+document.head.appendChild(styleElement);
+
 function appendReadTime(comic_title) {
 
     chrome.storage.local.get(['token', 'token_expire'], async function (result) {
@@ -41,10 +52,16 @@ function appendReadTime(comic_title) {
                                 titleElement.append(timeElement);
                                 found = true;
                                 console.log("found: " + found)
+
+                                if (!listItem.classList.contains('bg-gray')) {
+                                    console.log('not contain bg-gray')
+                                    listItem.classList.add('bg-saved');
+                                }
+
                                 break;
                             }
                         }
-                        //이미 읽은건데 내 db에는 없는 경우, 
+                        //이미 읽은건데 extension db에는 없는 경우, 
                         if (found === false && listItem.classList.contains('bg-gray')) {
                             console.log("i'm gray, but not in response", listItem, wrTitle)
                             try {
@@ -132,6 +149,6 @@ function getLocalDateTimeString() {
     return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    start();
-});
+// document.addEventListener('DOMContentLoaded', function () {
+start();
+// });

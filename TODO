@@ -28,6 +28,7 @@
 모든 response 작업하기, fetch랑 sendmessage들
         - 서버는 response status code 모든 분기에 넣음, 200, 400
 
+업체 db에는 없고, extension db에만 있으면 gray 처리가 안 돼서 이거 추가 필요, gray 다른 색
 서버 연결 실패 시 notification 주기?
 순위나 comic title 제공할 때 캐시서버 써보기? 의미 없긴한데
 이메일 인증 넣기
