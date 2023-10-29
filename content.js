@@ -37,13 +37,14 @@ function appendReadTime(comic_title) {
                                 var titleElement = listItem.querySelector('li[data-index="' + dataIndexValue + '"] .wr-subject');
                                 var timeElement = document.createElement('span');
 
-                                timeElement.textContent = ' Read - ' + item.read_at + ' - ' + item.saved;
+                                timeElement.textContent = ' read_at: ' + item.read_at;
                                 titleElement.append(timeElement);
                                 found = true;
                                 console.log("found: " + found)
                                 break;
                             }
                         }
+                        //이미 읽은건데 내 db에는 없는 경우, 
                         if (found === false && listItem.classList.contains('bg-gray')) {
                             console.log("i'm gray, but not in response", listItem, wrTitle)
                             try {
