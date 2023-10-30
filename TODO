@@ -22,16 +22,18 @@
 완 - put, patch로 바꿔보기, 추가, 업데이트
         - 해봤자 delete 정도
 완 - tab control
+완 - 이메일 인증 넣기
 
 로컬 저장 안함에 따라서 Import, Export 기능 바꾸기
 ? - fetch 쓰는거 전부 bg.js로 옮길까 생각 중임
 모든 response 작업하기, fetch랑 sendmessage들
         - 서버는 response status code 모든 분기에 넣음, 200, 400
 
-업체 db에는 없고, extension db에만 있으면 gray 처리가 안 돼서 이거 추가 필요, gray 다른 색
+완 - 업체 db에는 없고, extension db에만 있으면 gray 처리가 안 돼서 이거 추가 필요
+        - 분홍색
+        
 서버 연결 실패 시 notification 주기?
 순위나 comic title 제공할 때 캐시서버 써보기? 의미 없긴한데
-이메일 인증 넣기
 google login 넣어볼까 말까
 저쪽 서버의 comic의 id나, episode의 id도 전달을 해야할지 고민중
 ec2에서 서버 옮기기, 기능 어느정도 됐다 싶으면
