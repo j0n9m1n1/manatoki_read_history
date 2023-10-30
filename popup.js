@@ -106,6 +106,7 @@ function check_my_token() {
                         expired = true;
                         document.getElementById('div_login').style.display = 'block';
                         document.getElementById('div_login_info').style.display = 'none';
+                        document.getElementById('container').style.display = 'none';
 
                     } else {
                         console.log(currentTime + " " + expireTime)
@@ -114,6 +115,8 @@ function check_my_token() {
                         document.getElementById('div_login').style.display = 'none';
                         document.getElementById('div_login_info').style.display = 'block';
                         document.getElementById('login_email').textContent = 'Email: ' + result.email;
+                        document.getElementById('container').style.display = 'block';
+
                         email = result.email;
                     }
                 }
@@ -121,6 +124,7 @@ function check_my_token() {
                     console.log('not found token expire.' + expireTimeString)
                     document.getElementById('div_login').style.display = 'block';
                     document.getElementById('div_login_info').style.display = 'none';
+                    document.getElementById('container').style.display = 'none';
 
                 }
             }
@@ -128,6 +132,8 @@ function check_my_token() {
                 console.log('not found token.')
                 document.getElementById('div_login').style.display = 'block';
                 document.getElementById('div_login_info').style.display = 'none';
+                document.getElementById('container').style.display = 'none';
+
             }
             console.log('before resolve()')
             resolve();
