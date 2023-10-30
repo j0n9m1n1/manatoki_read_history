@@ -8,22 +8,25 @@
 
 </head>
 <!-- https://www.youtube.com/watch?v=nlOmgBHnLqQ -->
+
 <body>
     <div class="container">
         <div class="login" id="div_login">
-            <label id="lab_email" for="email" style="width:15%">Email</label>
-            <input type="text" id="email" name="email" value="" style="width:22%" required>
+            <label id="lab_email" for="email" style="width:10%">Email</label>
+            <input type="text" id="email" name="email" value="" style="width:25%" required>
+            <label id="lab_password" for="password" style="width:10%">Password</label>
+            <input type="password" id="password" name="password" value="" style="width:25%" required>
+            <button class="btn" type="submit" id="loginButton">로그인</button>
 
-            <label id="lab_password" for="password" style="width:15%">PW</label>
-            <input type="password" id="password" name="password" value="" style="width:22%" required>
-
-            <button class="btn" type="submit" id="loginButton" style="width:15%">Login</button>
-            <button class="btn" id="register" style="width:15%">Register</button>
+            <br>
+            <button class="btn" id="register">등록</button>
+            <button class="btn" id="password_reset">비밀번호 초기화</button>
         </div>
         <div class="login" id="div_login_info">
             <label id="login_email">Email: </label>
-            <button class="btn" id="logout">Logout</button>
+            <button class="btn" id="logout">로그아웃</button>
             <button class="btn" id="unregister">회원 탈퇴</button>
+            <button class="btn" id="password_change">비밀번호 변경</button>
             <!-- <button id="sync">Sync</button> -->
         </div>
     </div>

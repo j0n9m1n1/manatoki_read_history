@@ -75,7 +75,7 @@ check_my_token().then(() => {
 
         }
     });
-    document.getElementById("password").addEventListener("keyup", function(event) {
+    document.getElementById("password").addEventListener("keyup", function (event) {
         if (event.key === "Enter") {
             document.getElementById("loginButton").click();
         }
@@ -89,7 +89,9 @@ function check_my_token() {
         chrome.storage.local.get(['email', 'token', 'token_expire'], function (result) {
             token = result.token;
             var expireTimeString = result.token_expire;
-            document.getElementById("email").value = result.email;
+            if (result.email != undefined) {
+                document.getElementById("email").value = result.email;
+            }
             console.log("result.token_expire: " + result.token_expire)
             // 만료 시간 문자열을 Date 객체로 변환
             if (token !== "" && token !== undefined) {
