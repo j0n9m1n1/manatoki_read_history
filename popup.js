@@ -75,6 +75,11 @@ check_my_token().then(() => {
 
         }
     });
+    document.getElementById("password").addEventListener("keyup", function(event) {
+        if (event.key === "Enter") {
+            document.getElementById("loginButton").click();
+        }
+    });
 }).catch((error) => {
     console.error(error);
 });
@@ -84,6 +89,7 @@ function check_my_token() {
         chrome.storage.local.get(['email', 'token', 'token_expire'], function (result) {
             token = result.token;
             var expireTimeString = result.token_expire;
+            document.getElementById("email").value = result.email;
             console.log("result.token_expire: " + result.token_expire)
             // 만료 시간 문자열을 Date 객체로 변환
             if (token !== "" && token !== undefined) {
@@ -105,7 +111,7 @@ function check_my_token() {
                         expired = false;
                         document.getElementById('div_login').style.display = 'none';
                         document.getElementById('div_login_info').style.display = 'block';
-                        document.getElementById('login_email').textContent = 'email: ' + result.email;
+                        document.getElementById('login_email').textContent = 'Email: ' + result.email;
                         email = result.email;
                     }
                 }
@@ -173,7 +179,7 @@ function login() {
 }
 
 function logout() {
-    chrome.storage.local.remove(['email', 'token', 'token_expire'], function () {
+    chrome.storage.local.remove(['token', 'token_expire'], function () {
         fetch('https://jmlee4dev.net/extension/logout', {
             method: 'POST',
             mode: 'cors',
