@@ -75,6 +75,27 @@ check_my_token().then(() => {
 
         }
     });
+    document.getElementById('password_reset').addEventListener('click', function () {
+        let userInput = prompt("비밀번호를 초기화 할 이메일을 적어주세요.", "example@gmail.com");
+
+        if (userInput) {
+            password_reset(userInput);
+        } else {
+
+        }
+    });
+
+    document.getElementById('password_change').addEventListener('click', function () {
+        if (!expired && expired != undefined && token !== "" && token != undefined) {
+        chrome.tabs.create({ url: 'password_change.html' });
+        // chrome.tabs.create({ url: `password_change.html?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)} `});
+        }
+        else
+        {
+            alert("재 로그인 후 이용해주세요.")
+        }
+    });
+    
     document.getElementById("password").addEventListener("keyup", function (event) {
         if (event.key === "Enter") {
             document.getElementById("loginButton").click();
@@ -237,7 +258,27 @@ function unregister(userInput) {
             });
     }
 }
+function password_reset(userInput) {
+    
+    fetch('https://jmlee4dev.net/extension/reset_password', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ email: userInput })
+    })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 
+}
 // function switch_div(menu_name) {
 
 //     if (menu_name == "episodes") {
