@@ -1,3 +1,5 @@
+var request_fetch_count = 50
+
 var email = undefined;
 var token = undefined;
 var expired = true;
@@ -33,7 +35,6 @@ check_my_token().then(() => {
     var comicTitlesElement = document.getElementById('comic_title_list');
     var popularityTitleElement = document.getElementById('popularity_episode_list');
 
-    var request_fetch_count = 50
     get_episode_titles(episodeTitleElement, request_fetch_count);
 
     document.getElementById('register').addEventListener('click', function () {
@@ -193,6 +194,8 @@ function login() {
 
                 });
                 check_my_token();
+                get_episode_titles(episodeTitleElement, request_fetch_count);
+
                 // document.getElementById('login_email').textContent = 'email: ' + email;
                 // document.getElementById('div_login').style.display = 'none';
                 // document.getElementById('div_login_info').style.display = 'block';
@@ -279,24 +282,7 @@ function password_reset(userInput) {
         });
 
 }
-// function switch_div(menu_name) {
 
-//     if (menu_name == "episodes") {
-//         div_episodes.style.display = "block"
-//         div_comics.style.display = "none"
-//         div_popularity.style.display = "none"
-//     }
-//     else if (menu_name == "comics") {
-//         div_episodes.style.display = "none"
-//         div_comics.style.display = "block"
-//         div_popularity.style.display = "none"
-//     }
-//     else if (menu_name == "popularity") {
-//         div_episodes.style.display = "none"
-//         div_comics.style.display = "none"
-//         div_popularity.style.display = "block"
-//     }
-// }
 
 function get_episode_titles(episodeTitleElement, request_fetch_count) {
     if (!expired && expired != undefined && token !== "" && token != undefined) {
@@ -323,14 +309,14 @@ function get_episode_titles(episodeTitleElement, request_fetch_count) {
 
                 for (let title in parsed_json) {
                     if (parsed_json.hasOwnProperty(title)) {
-                        var button = document.createElement('button');
-                        button.textContent = 'Delete';
-                        button.className = 'btn';
-                        button.addEventListener('click', removeItem);
+                        // var button = document.createElement('button');
+                        // button.textContent = 'Delete';
+                        // button.className = 'btn';
+                        // button.addEventListener('click', removeItem);
                         var listItem = document.createElement('li');
-                        listItem.textContent = parsed_json[title] + ' - ' + title + '  ';
-                        listItem.appendChild(button);
-
+                        // listItem.textContent = parsed_json[title] + ' - ' + title + '  ';
+                        listItem.textContent = parsed_json[title] + ' - ' + title;
+                        // listItem.appendChild(button);
                         console.log('listItem: ' + listItem)
                         episodeTitleElement.appendChild(listItem);
                     }
@@ -428,9 +414,28 @@ function get_popularity_episode_titles(popularityTitleElement) {
     }
 }
 
-function removeItem(event) {
-    var listItem = event.target.parentElement;
-    listItem.remove();
-    chrome.runtime.sendMessage({ action: "delete", title: target_title }, function (response) {
-    });
-}
+// function removeItem(event) {
+//     var listItem = event.target.parentElement;
+//     listItem.remove();
+//     chrome.runtime.sendMessage({ action: "delete", title: target_title }, function (response) {
+//     });
+// }
+
+// function switch_div(menu_name) {
+
+//     if (menu_name == "episodes") {
+//         div_episodes.style.display = "block"
+//         div_comics.style.display = "none"
+//         div_popularity.style.display = "none"
+//     }
+//     else if (menu_name == "comics") {
+//         div_episodes.style.display = "none"
+//         div_comics.style.display = "block"
+//         div_popularity.style.display = "none"
+//     }
+//     else if (menu_name == "popularity") {
+//         div_episodes.style.display = "none"
+//         div_comics.style.display = "none"
+//         div_popularity.style.display = "block"
+//     }
+// }
