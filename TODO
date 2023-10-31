@@ -10,7 +10,8 @@
         - 일단 1일만 쿼리해서 top 10 return
 
 완 - User 테이블 이메일 및 패스워드 암호화
-        - pw만 해싱함
+        - pw만 salt+256 해싱함
+        - 이메일도 대칭키로 할까 하다가 말았음
 
 완 - 토큰을 jwt로 바꾸기
         - jwt 보니까 굳이라는 생각이 들어서 적용 안 함
@@ -21,12 +22,22 @@
         - 로컬 저장 X
 
 완 - unregister시 redis에서 token 삭제 해야함
+
 완 - put, patch로 바꿔보기, 추가, 업데이트
-        - 해봤자 delete 정도
+        - 해봤자 delete 정도 -> delete 없앰
+
 완 - tab control
+
 완 - 이메일 인증 넣기
+
 완 - 업체 db에는 없고, extension db에만 있으면 gray 처리가 안 돼서 이거 추가 필요
         - 분홍색
+
+완 - Delete 버튼 없는게 났지 않을까?
+        - 없앰
+        
+완 - 패스워드 변경 및 초기화 
+
 로컬 저장 안함에 따라서 Import, Export 기능 바꾸기
 ? - fetch 쓰는거 전부 bg.js로 옮길까 생각 중임
 모든 response 작업하기, fetch랑 sendmessage들
