@@ -35,9 +35,11 @@
 
 완 - Delete 버튼 없는게 났지 않을까?
         - 없앰
-        
-완 - 패스워드 변경 및 초기화 
 
+완 - 패스워드 변경 및 초기화 
+episode를 tree view로 년월일 ㄴ 타이틀 - 시분초, 고민중
+ipad 에서 사용 가능한 safari, chrome extension으로 export
+store에 publish
 로컬 저장 안함에 따라서 Import, Export 기능 바꾸기
 ? - fetch 쓰는거 전부 bg.js로 옮길까 생각 중임
 모든 response 작업하기, fetch랑 sendmessage들
