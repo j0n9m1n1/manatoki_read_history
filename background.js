@@ -3,8 +3,6 @@ var token = undefined;
 var expired = true;
 var saved_server = false;
 
-// check_my_token();
-
 check_my_token().then(() => {
 
     chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -66,12 +64,17 @@ check_my_token().then(() => {
                 })
                     .then(response => response.json()) // JSON 형식으로 파싱
                     .then(data => {
-                        var parsed_json = JSON.parse(data);
-                        // var result = data.map(function (history) {
-                        //     return { "title": history.title, "read_at": history.read_at.toString(), "saved": true };
-                        // });
-                        console.log(parsed_json)
-                        sendResponse(parsed_json);
+                        if (data.message === "not found episodes") {
+                            sendResponse(data.message);
+                        }
+                        else {
+                            var parsed_json = JSON.parse(data);
+                            // var result = data.map(function (history) {
+                            //     return { "title": history.title, "read_at": history.read_at.toString(), "saved": true };
+                            // });
+                            console.log("getReadHistoryOfTitle: " + parsed_json)
+                            sendResponse(parsed_json);
+                        }
                     })
                     .catch(error => {
                         console.error('Error:', error);
@@ -119,6 +122,8 @@ function check_my_token() {
         chrome.storage.local.get(['email', 'token', 'token_expire'], function (result) {
             token = result.token;
             var expireTimeString = result.token_expire;
+            console.log("result.email: " + result.email)
+            console.log("result.token: " + result.token)
             console.log("result.token_expire: " + result.token_expire)
             // 만료 시간 문자열을 Date 객체로 변환
             if (token !== "" && token !== undefined) {

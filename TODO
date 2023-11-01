@@ -1,3 +1,8 @@
+231101
+최근 본 만화를 타고 들어가면 url 다름
+북마크로 들어가면 동일 함, 주간 베스트도 같음
+근데 서버 부담을 줄이려면 로컬에서 최근에 저장을 헀는지 안 했는지 확인을 하고 request를 보내는게 좋아보이긴 하는데
+
 완 - token을 헤더로 넣기, autho beaer??
 
 완 - 인증 함수 따로 만들기, 토큰 따고 유효기간 구하고, 추가로 서버에 확인하던가
@@ -37,6 +42,16 @@
         - 없앰
 
 완 - 패스워드 변경 및 초기화 
+
+완 - ec2에서 서버 옮기기, 기능 어느정도 됐다 싶으면
+
+완 - 최근 본 만화로 들어 갔을 때 url 다른거 match에 추가
+
+
+
+popularity 조회해서 없을 때 not found today 계속 쌓이는거 확인
+종종 처음 들어가면 무반응인거 확인하기
+        - 재현 빡쎔
 episode를 tree view로 년월일 ㄴ 타이틀 - 시분초, 고민중
 ipad 에서 사용 가능한 safari, chrome extension으로 export
 store에 publish
@@ -48,5 +63,3 @@ store에 publish
 순위나 comic title 제공할 때 캐시서버 써보기? 의미 없긴한데
 google login 넣어볼까 말까
 저쪽 서버의 comic의 id나, episode의 id도 전달을 해야할지 고민중
-ec2에서 서버 옮기기, 기능 어느정도 됐다 싶으면
-

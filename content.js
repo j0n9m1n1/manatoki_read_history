@@ -26,58 +26,59 @@ function appendReadTime(comic_title) {
             if (currentTime < expireTime) {
                 chrome.runtime.sendMessage({ action: "getReadHistoryOfTitle", comic_title: comic_title, token: token }, function (response) {
                     // 서버 응답을 받아 처리합니다.
-                    console.log(response);
-                    // var listItemsWithoutGray = document.querySelectorAll('.list-item:not(.bg-gray)');
-                    // var listItemWithGray = document.querySelectorAll('.list-item.bg-gray');
-                    var listItemsAll = document.querySelectorAll('.list-item'); // 모든 list-item 엘리먼트를 가져옵니다.
-                    // console.log('listGrayItems: ' + listItemWithGray)
-                    // console.log('listGrayItems: ' + listItemWithGray.length)
-                    listItemsAll.forEach(function (listItem) {
-                        var dataIndexValue = listItem.getAttribute('data-index');
-                        var wrTitle = listItem.querySelector('.wr-subject a').textContent.trim();
-                        var countElement = listItem.querySelector('.count.orangered.hidden-xs');
-                        var commentCountLength = countElement.textContent.length;
+                    console.log("appendReadTime: " + response);
+                    if (response === "not found episodes") {
+                        //아직 몰루
+                    }
+                    else {
+                        var listItemsAll = document.querySelectorAll('.list-item'); // 모든 list-item 엘리먼트를 가져옵니다.
+                        listItemsAll.forEach(function (listItem) {
+                            var dataIndexValue = listItem.getAttribute('data-index');
+                            var wrTitle = listItem.querySelector('.wr-subject a').textContent.trim();
+                            var countElement = listItem.querySelector('.count.orangered.hidden-xs');
+                            var commentCountLength = countElement.textContent.length;
 
-                        wrTitle = wrTitle.substring(commentCountLength, wrTitle.length - commentCountLength).trim()
+                            wrTitle = wrTitle.substring(commentCountLength, wrTitle.length - commentCountLength).trim()
 
-                        var found = false;
+                            var found = false;
 
-                        for (let i = 0; i < response.length; i++) {
-                            let item = response[i];
-                            if (item.title === wrTitle) {
-                                var titleElement = listItem.querySelector('li[data-index="' + dataIndexValue + '"] .wr-subject');
-                                var timeElement = document.createElement('span');
+                            for (let i = 0; i < response.length; i++) {
+                                let item = response[i];
+                                if (item.title === wrTitle) {
+                                    var titleElement = listItem.querySelector('li[data-index="' + dataIndexValue + '"] .wr-subject');
+                                    var timeElement = document.createElement('span');
 
-                                timeElement.textContent = ' read_at: ' + item.read_at;
-                                titleElement.append(timeElement);
-                                found = true;
-                                console.log("found: " + found)
+                                    timeElement.textContent = ' read_at: ' + item.read_at;
+                                    titleElement.append(timeElement);
+                                    found = true;
+                                    console.log("found: " + found)
 
-                                if (!listItem.classList.contains('bg-gray')) {
-                                    console.log('not contain bg-gray')
-                                    listItem.classList.add('bg-saved');
+                                    if (!listItem.classList.contains('bg-gray')) {
+                                        console.log('not contain bg-gray')
+                                        listItem.classList.add('bg-saved');
+                                    }
+
+                                    break;
                                 }
-
-                                break;
                             }
-                        }
-                        //이미 읽은건데 extension db에는 없는 경우, 
-                        if (found === false && listItem.classList.contains('bg-gray')) {
-                            console.log("i'm gray, but not in response", listItem, wrTitle)
-                            try {
-                                // const response = await new Promise((resolve, reject) => {
-                                // await new Promise((resolve) => {
-                                chrome.runtime.sendMessage({ action: "setTitle", title: wrTitle, read_at: "1970-01-01 00:00:00" }, function (response) {
-                                    // resolve(response);
-                                    // 응답 받으면 여기서 또 받은걸 append해주면 될 듯
-                                });
-                                // });
-                            } catch (error) {
-                                console.error(error);
+                            //이미 읽은건데 extension db에는 없는 경우, 
+                            if (found === false && listItem.classList.contains('bg-gray')) {
+                                console.log("i'm gray, but not in response", listItem, wrTitle)
+                                try {
+                                    // const response = await new Promise((resolve, reject) => {
+                                    // await new Promise((resolve) => {
+                                    chrome.runtime.sendMessage({ action: "setTitle", title: wrTitle, read_at: "1970-01-01 00:00:00" }, function (response) {
+                                        // resolve(response);
+                                        // 응답 받으면 여기서 또 받은걸 append해주면 될 듯
+                                    });
+                                    // });
+                                } catch (error) {
+                                    console.error(error);
+                                }
                             }
-                        }
 
-                    });
+                        });
+                    }
                 });
             } else {
                 console.log('토큰이 만료되었습니다.');
