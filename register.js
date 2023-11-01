@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (password === password_confirm) {
 			var formData = {
 				email: document.getElementById('email').value,
-				password: document.getElementById('password').value
+				password: document.getElementById('password').value,
+				password_confirm: document.getElementById('password_confirm')
 			};
 
 			// 데이터를 JSON으로 변환
