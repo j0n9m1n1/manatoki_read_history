@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			var formData = {
 				email: document.getElementById('email').value,
 				password: document.getElementById('password').value,
-				password_confirm: document.getElementById('password_confirm')
+				password_confirm: document.getElementById('password_confirm').value
 			};
 
 			// 데이터를 JSON으로 변환
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
 					// 성공적으로 처리된 경우의 코드
 				})
 				.catch(error => {
-					alert(data.message)
+					alert(error.message)
 					console.error('에러:', error);
 					// 에러 발생 시 처리하는 코드
 				});

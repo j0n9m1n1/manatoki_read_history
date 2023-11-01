@@ -250,11 +250,8 @@ function unregister(userInput) {
         })
             .then(response => response.json())
             .then(data => {
-                if (data.message === "success") {
-                    logout();
-                }
-                else {
-                }
+                logout();
+                alert(data.message)
             })
             .catch(error => {
                 console.error('Error:', error);

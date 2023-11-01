@@ -21,8 +21,9 @@ check_my_token().then(() => {
 
         if (!expired && expired != undefined && token !== "" && token != undefined)
         {
-            if(password_current !== password_new || password_current !== password_new_confirm){
-                if (password_new === password_new_confirm) {
+            if (password_new === password_new_confirm) {
+                if(password_current !== password_new && 
+                    password_current !== password_new_confirm){
 
                     var formData = {
                         email: email,
@@ -55,12 +56,16 @@ check_my_token().then(() => {
                         });
                 }
                 else {
-                    alert("입력한 패스워드가 다름")
+                    alert("현재 비밀번호와 동일합니다.")
                 }
     }
     else{
-        //current와 new가 같음
+                    alert("입력한 패스워드가 다름")
+                    //current와 new가 같음
     }
+    }
+    else{
+        alert("페이지를 닫고 다시 들어와주세요.")
     }
 	});
 
@@ -110,8 +115,8 @@ check_my_token().then(() => {
     }
 
     function logout() {
-        chrome.storage.local.remove(['token', 'token_expire'], function () {
-            fetch('https://jmlee4dev.net/extension/logout', {
+
+        fetch('https://jmlee4dev.net/extension/logout', {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
@@ -132,5 +137,8 @@ check_my_token().then(() => {
                 });
             check_my_token();
             console.log('로그아웃 완료');
+            
+        chrome.storage.local.remove(['token', 'token_expire'], function () {
+            
         });
     }
