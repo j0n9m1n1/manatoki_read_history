@@ -30,7 +30,6 @@ check_my_token().then(() => {
     console.log('after resolve()')
 
     // document.addEventListener('DOMContentLoaded', function () {
-    console.log('DOMContentLoaded')
     var episodeTitleElement = document.getElementById('episode_title_list');
     var comicTitlesElement = document.getElementById('comic_title_list');
     var popularityTitleElement = document.getElementById('popularity_episode_list');
@@ -101,6 +100,11 @@ check_my_token().then(() => {
         if (event.key === "Enter") {
             document.getElementById("loginButton").click();
         }
+    });
+
+    document.getElementById("btn_close_notice").addEventListener("click", function (event) {
+        document.getElementById('container_notice').style.display = 'none';
+        document.getElementById('temp_space').style.display = 'none';
     });
 }).catch((error) => {
     console.error(error);
@@ -379,6 +383,11 @@ function get_popularity_episode_titles(popularityTitleElement) {
             .then(response => response.json()) // JSON 형식으로 파싱
             .then(data => {
                 if (data.message === "not found today") {
+                    
+                    while (popularityTitleElement.firstChild) {
+                        popularityTitleElement.removeChild(popularityTitleElement.firstChild);
+                    }
+
                     var listItem = document.createElement('li');
                     listItem.textContent = "Not found today"
                     popularityTitleElement.appendChild(listItem);
@@ -386,11 +395,9 @@ function get_popularity_episode_titles(popularityTitleElement) {
                 else {
                     parsed_json = JSON.parse(data);
                     console.log("get_popularity_episode: " + parsed_json);
-                    // console.log(get_popularity_episode);
-                    var ulElement = document.getElementById('popularity_episode_list');
 
-                    while (ulElement.firstChild) {
-                        ulElement.removeChild(ulElement.firstChild);
+                    while (popularityTitleElement.firstChild) {
+                        popularityTitleElement.removeChild(popularityTitleElement.firstChild);
                     }
 
                     for (var key in parsed_json) {

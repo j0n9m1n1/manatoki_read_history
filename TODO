@@ -47,20 +47,26 @@
 
 완 - 최근 본 만화로 들어 갔을 때 url 다른거 match에 추가
 
+완 - popularity 조회해서 없을 때 not found today 계속 쌓이는거 확인
+
+완 - extension 서버의 공지사항 표시 할 element 추가 해놓기
+
+
 진 - 모든 response 작업하기, fetch랑 sendmessage들
         - 서버는 response status code 모든 분기에 넣음, 200, 400      
 
 저장 및 실패 로그 탭 제공해서 보여주기, 이건 로컬에 저장 해야 함
-extension 서버의 공지사항 표시 할 element 추가 해놓기
-popularity 조회해서 없을 때 not found today 계속 쌓이는거 확인
 종종 처음 들어가면 무반응인거 확인하기
         - 재현 빡쎔
-episode를 tree view로 년월일 ㄴ 타이틀 - 시분초, 고민중
 ipad 에서 사용 가능한 safari, chrome extension으로 export
 store에 publish
 로컬 저장 안함에 따라서 Import, Export 기능 바꾸기
 ? - fetch 쓰는거 전부 bg.js로 옮길까 생각 중임
 서버 연결 실패 시 notification 주기?
+
+
+딱히
 순위나 comic title 제공할 때 캐시서버 써보기? 의미 없긴한데
 google login 넣어볼까 말까
 저쪽 서버의 comic의 id나, episode의 id도 전달을 해야할지 고민중
+episode를 tree view로 년월일 ㄴ 타이틀 - 시분초, 고민중

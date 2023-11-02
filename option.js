@@ -1,9 +1,4 @@
 
-document.getElementById('clearData').addEventListener('click', function () {
-    chrome.storage.local.remove('titleList', function () {
-        linkListElement.innerHTML = '';
-    });
-});
 
 document.getElementById('exportData').addEventListener('click', function () {
     chrome.storage.local.get(['titleList'], function (result) {
@@ -23,28 +18,35 @@ document.getElementById('exportData').addEventListener('click', function () {
     });
 });
 
-document.getElementById('uploadButton').addEventListener('click', function () {
-    var fileInput = document.getElementById('fileInput');
-    var file = fileInput.files[0];
 
-    if (file) {
-        var reader = new FileReader();
+// document.getElementById('clearData').addEventListener('click', function () {
+//     chrome.storage.local.remove('titleList', function () {
+//         linkListElement.innerHTML = '';
+//     });
+// });
 
-        reader.onload = function (event) {
-            var content = event.target.result;
-            try {
-                var jsonData = JSON.parse(content);
-                chrome.storage.local.set({ 'titleList': jsonData }, function () {
-                    alert('데이터가 저장되었습니다.');
-                });
-            } catch (error) {
-                alert('올바른 JSON 형식이 아닙니다.');
-            }
-        };
+// document.getElementById('uploadButton').addEventListener('click', function () {
+//     var fileInput = document.getElementById('fileInput');
+//     var file = fileInput.files[0];
 
-        reader.readAsText(file);
-    }
-});
+//     if (file) {
+//         var reader = new FileReader();
+
+//         reader.onload = function (event) {
+//             var content = event.target.result;
+//             try {
+//                 var jsonData = JSON.parse(content);
+//                 chrome.storage.local.set({ 'titleList': jsonData }, function () {
+//                     alert('데이터가 저장되었습니다.');
+//                 });
+//             } catch (error) {
+//                 alert('올바른 JSON 형식이 아닙니다.');
+//             }
+//         };
+
+//         reader.readAsText(file);
+//     }
+// });
 
 // document.getElementById('unregister').addEventListener('click', function () {
 
