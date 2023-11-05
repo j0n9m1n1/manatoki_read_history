@@ -28,7 +28,6 @@ tabs.forEach((tab, index) => {
 
 check_my_token().then(() => {
     console.log('after resolve()')
-
     // document.addEventListener('DOMContentLoaded', function () {
     var episodeTitleElement = document.getElementById('episode_title_list');
     var comicTitlesElement = document.getElementById('comic_title_list');
@@ -41,19 +40,16 @@ check_my_token().then(() => {
     });
 
     document.getElementById('episodes').addEventListener('click', function () {
-        // switch_div('episodes');
         console.log('episodes')
         get_episode_titles(episodeTitleElement, request_fetch_count);
 
     });
 
     document.getElementById('comics').addEventListener('click', function () {
-        // switch_div('comics');
         get_comic_titles(comicTitlesElement);
     });
 
     document.getElementById('popularity').addEventListener('click', function () {
-        // switch_div('popularity');
         get_popularity_episode_titles(popularityTitleElement);
     });
     // });
@@ -87,15 +83,14 @@ check_my_token().then(() => {
 
     document.getElementById('password_change').addEventListener('click', function () {
         if (!expired && expired != undefined && token !== "" && token != undefined) {
-        chrome.tabs.create({ url: 'password_change.html' });
-        // chrome.tabs.create({ url: `password_change.html?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)} `});
+            chrome.tabs.create({ url: 'password_change.html' });
+            // chrome.tabs.create({ url: `password_change.html?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)} `});
         }
-        else
-        {
+        else {
             alert("재 로그인 후 이용해주세요.")
         }
     });
-    
+
     document.getElementById("password").addEventListener("keyup", function (event) {
         if (event.key === "Enter") {
             document.getElementById("loginButton").click();
@@ -263,7 +258,7 @@ function unregister(userInput) {
     }
 }
 function password_reset(userInput) {
-    
+
     fetch('https://jmlee4dev.net/extension/reset_password', {
         method: 'POST',
         mode: 'cors',
@@ -383,7 +378,7 @@ function get_popularity_episode_titles(popularityTitleElement) {
             .then(response => response.json()) // JSON 형식으로 파싱
             .then(data => {
                 if (data.message === "not found today") {
-                    
+
                     while (popularityTitleElement.firstChild) {
                         popularityTitleElement.removeChild(popularityTitleElement.firstChild);
                     }
