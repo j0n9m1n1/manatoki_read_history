@@ -21,7 +21,7 @@ function appendReadTime(comic_title) {
             const currentTime = new Date();
 
             if (currentTime < expireTime) {
-                chrome.runtime.sendMessage({ action: "getReadHistoryOfTitle", comic_title: comic_title, token: token }, function (response) {
+                chrome.runtime.sendMessage({ action: "get_history_of_title", comic_title: comic_title, token: token }, function (response) {
                     // 서버 응답을 받아 처리합니다.
                     console.log("appendReadTime: " + response);
                     if (response === "not found episodes") {
@@ -64,7 +64,7 @@ function appendReadTime(comic_title) {
                                 try {
                                     // const response = await new Promise((resolve, reject) => {
                                     // await new Promise((resolve) => {
-                                    chrome.runtime.sendMessage({ action: "setTitle", title: wrTitle, read_at: "1970-01-01 00:00:00" }, function (response) {
+                                    chrome.runtime.sendMessage({ action: "add_history", title: wrTitle, read_at: "1970-01-01 00:00:00" }, function (response) {
                                         // resolve(response);
                                         // 응답 받으면 여기서 또 받은걸 append해주면 될 듯
                                     });
@@ -111,29 +111,18 @@ async function start() {
                 console.log("뷰 페이지");
                 console.log('subject content: ' + subjectValue);
 
-                // var toon_title_element = document.querySelector('.toon-title');
-
                 try {
-                    // const response = await new Promise((resolve, reject) => {
-                    // const response = await new Promise((resolve) => {
-                    chrome.runtime.sendMessage({ action: "setTitle", title: subjectValue, read_at: getLocalDateTimeString() }, function (response) {
-                        // if (response === null) {
-                        //     reject(new Error('응답이 null입니다.'));
-                        // } else if (response.success) {
-                        //     resolve(response);
-                        // } else if (response.fail) {
-                        //     reject(new Error('저장 실패'));
-                        // }
+                    chrome.runtime.sendMessage({ action: "add_history", title: subjectValue, read_at: getLocalDateTimeString() }, function (response) {
                         console.log("response: " + response)
                         console.log('finding tag')
-                        
+                        //response 따라서 append 하냐 마냐 추가 해야함
                         var toonTitleElement = document.querySelector('.toon-title');
 
                         if (toonTitleElement) {
                             var spanElement = toonTitleElement.querySelector('span');
 
                             if (spanElement) {
-                                var additionalText = document.createTextNode(' 추가 텍스트 ');
+                                var additionalText = document.createTextNode(`${response} - saved`);
                                 spanElement.appendChild(additionalText);
                             } else {
                                 console.log('<span> 요소를 찾을 수 없습니다.');
@@ -167,5 +156,7 @@ function getLocalDateTimeString() {
 }
 
 // document.addEventListener('DOMContentLoaded', function () {
+
+
 start();
 // });

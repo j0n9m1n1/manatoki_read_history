@@ -4,9 +4,13 @@ var email = undefined;
 var token = undefined;
 var expired = true;
 
-var div_episodes = document.getElementById("div_episodes");
-var div_comics = document.getElementById("div_comics");
-var div_popularity = document.getElementById("div_popularity");
+// var div_episodes = document.getElementById("div_episodes");
+// var div_comics = document.getElementById("div_comics");
+// var div_popularity = document.getElementById("div_popularity");
+
+var episodeTitleElement = document.getElementById('episode_title_list');
+var comicTitlesElement = document.getElementById('comic_title_list');
+var popularityTitleElement = document.getElementById('popularity_episode_list');
 
 const tabs = document.querySelectorAll('.tab_btn');
 const all_content = document.querySelectorAll('.content');
@@ -26,12 +30,10 @@ tabs.forEach((tab, index) => {
 
 })
 
+
+
 check_my_token().then(() => {
     console.log('after resolve()')
-    // document.addEventListener('DOMContentLoaded', function () {
-    var episodeTitleElement = document.getElementById('episode_title_list');
-    var comicTitlesElement = document.getElementById('comic_title_list');
-    var popularityTitleElement = document.getElementById('popularity_episode_list');
 
     get_episode_titles(episodeTitleElement, request_fetch_count);
 
@@ -56,6 +58,8 @@ check_my_token().then(() => {
 
     document.getElementById('loginButton').addEventListener('click', function () {
         login();
+
+
     });
 
     document.getElementById('logout').addEventListener('click', function () {
@@ -84,7 +88,6 @@ check_my_token().then(() => {
     document.getElementById('password_change').addEventListener('click', function () {
         if (!expired && expired != undefined && token !== "" && token != undefined) {
             chrome.tabs.create({ url: 'password_change.html' });
-            // chrome.tabs.create({ url: `password_change.html?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)} `});
         }
         else {
             alert("재 로그인 후 이용해주세요.")
@@ -166,116 +169,42 @@ function login() {
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
 
-    // chrome.runtime.sendMessage({ action: "login", email: email, password: password }, function (response) {
-    // });
-    fetch('https://jmlee4dev.net/extension/login', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email: email, password: password })
-    })
-        .then(response => response.json())
-        .then(data => {
-            // data = JSON.parse(data);
-            console.log(data.token)
-            console.log(data.token_expire)
-            console.log("data message: ", data.message)
-            if (data.message === "success") {
-                chrome.storage.local.set({
-                    'email': email,
-                    'token': data.token,
-                    'token_expire': data.token_expire
-                }, function () {
-                    //check_my_token() 할까 그냥
+    chrome.runtime.sendMessage({ action: "login", email: email, password: password }, function (response) {
 
-                });
-                check_my_token();
-                get_episode_titles(episodeTitleElement, request_fetch_count);
+        check_my_token();
+        get_episode_titles(episodeTitleElement, request_fetch_count);
+    });
 
-                // document.getElementById('login_email').textContent = 'email: ' + email;
-                // document.getElementById('div_login').style.display = 'none';
-                // document.getElementById('div_login_info').style.display = 'block';
-            }
-            else {
-                var loginMessage = document.getElementById('loginMessage');
-                loginMessage.textContent = '로그인 실패';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
 }
 
 function logout() {
-    chrome.storage.local.remove(['token', 'token_expire'], function () {
-        fetch('https://jmlee4dev.net/extension/logout', {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message === "success") {
-                }
-                else {
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+    chrome.runtime.sendMessage({ action: "logout" }, function (response) {
+
         check_my_token();
-        console.log('로그아웃 완료');
     });
+
 }
 
 function unregister(userInput) {
-    if (!expired && expired != undefined && token !== "" && token != undefined) {
-        fetch('https://jmlee4dev.net/extension/unregister', {
-            method: 'DELETE',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ password: userInput })
-        })
-            .then(response => response.json())
-            .then(data => {
-                logout();
-                alert(data.message)
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
+    chrome.runtime.sendMessage({ action: "unregister", userInput: userInput }, function (response) {
+        if (response) {
+            logout();
+            alert(data.message)
+        }
+        else {
+
+        }
+    });
 }
 function password_reset(userInput) {
+    chrome.runtime.sendMessage({ action: "password_reset", userInput: userInput }, function (response) {
+        if (response) {
+            alert(response);
+        }
+        else {
 
-    fetch('https://jmlee4dev.net/extension/reset_password', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ email: userInput })
-    })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        }
+    });
 
 }
 
@@ -412,6 +341,7 @@ function get_popularity_episode_titles(popularityTitleElement) {
         console.log('expired token.');
     }
 }
+
 
 // function removeItem(event) {
 //     var listItem = event.target.parentElement;
