@@ -97,10 +97,10 @@ check_my_token().then(() => {
         }
     });
 
-    document.getElementById("btn_close_notice").addEventListener("click", function (event) {
-        document.getElementById('container_notice').style.display = 'none';
-        document.getElementById('temp_space').style.display = 'none';
-    });
+    // document.getElementById("btn_close_notice").addEventListener("click", function (event) {
+    //     document.getElementById('container_notice').style.display = 'none';
+    //     document.getElementById('temp_space').style.display = 'none';
+    // });
 }).catch((error) => {
     console.error(error);
 });
