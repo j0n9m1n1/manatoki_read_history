@@ -1,11 +1,8 @@
 //모든 사람이 목록 페이지를 거쳐서 뷰페이지로 이동하지 않음
 //이러나 저러나 크롤링 하면 더 정확해지긴 하는데, 그러고 싶지는 않음
-//서버에 이미 저장 된 것, 안 된 것
-// for listall{ for json }
 
 var styleElement = document.createElement('style');
 
-// 스타일 시트 내용을 설정합니다.
 styleElement.textContent = `
   .bg-saved {
     background-color: #FFC0CB;
