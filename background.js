@@ -34,17 +34,15 @@ check_my_token().then(() => {
                     .then(data => {
                         console.log("data.message: " + data.message)
                         if (data.message === "success") {
-                            saved_server = true;
+
+                            sendResponse(currentFormattedDateTime);
                         }
                         else if (data.message === "fail") {
-                            saved_server = false;
                         }
 
                     })
                     .catch(error => {
                         console.error('에러:', error);
-                        saved_server = false;
-
                     });
             }
             else if (request.action === "getReadHistoryOfTitle") {
@@ -110,6 +108,7 @@ check_my_token().then(() => {
 
         }
         else {
+            sendResponse("fail");
             console.log('토큰이 만료돼서 다시 로그인 해주세요.')
         }
     });

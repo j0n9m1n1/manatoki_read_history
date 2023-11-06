@@ -114,6 +114,8 @@ async function start() {
                 console.log("뷰 페이지");
                 console.log('subject content: ' + subjectValue);
 
+                // var toon_title_element = document.querySelector('.toon-title');
+
                 try {
                     // const response = await new Promise((resolve, reject) => {
                     // const response = await new Promise((resolve) => {
@@ -125,6 +127,23 @@ async function start() {
                         // } else if (response.fail) {
                         //     reject(new Error('저장 실패'));
                         // }
+                        console.log("response: " + response)
+                        console.log('finding tag')
+                        
+                        var toonTitleElement = document.querySelector('.toon-title');
+
+                        if (toonTitleElement) {
+                            var spanElement = toonTitleElement.querySelector('span');
+
+                            if (spanElement) {
+                                var additionalText = document.createTextNode(' 추가 텍스트 ');
+                                spanElement.appendChild(additionalText);
+                            } else {
+                                console.log('<span> 요소를 찾을 수 없습니다.');
+                            }
+                        } else {
+                            console.log('.toon-title 클래스를 가진 요소를 찾을 수 없습니다.');
+                        }
                     });
                     // });
                 } catch (error) {
