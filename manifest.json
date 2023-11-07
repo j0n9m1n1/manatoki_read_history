@@ -4,11 +4,7 @@
     "version": "1.0",
     "description": "마나토끼 봤던 만화 기록 및 표시",
     "permissions": [
-        "tabs",
-        "storage",
-        "activeTab",
-        "scripting",
-        "notifications"
+        "storage"
     ],
     "host_permissions": [
         "https://jmlee4dev.net/*"
