@@ -8,7 +8,7 @@ check_my_token().then(() => {
     chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
         if (!expired) {
-            if (request.action == "setTitle") {
+            if (request.action == "add_history") {
                 var titleValue = request.title;
                 console.log("read_at: " + request.read_at)
                 console.log("bg.js title: " + titleValue)
@@ -45,7 +45,7 @@ check_my_token().then(() => {
                         console.error('에러:', error);
                     });
             }
-            else if (request.action === "getReadHistoryOfTitle") {
+            else if (request.action === "get_history_of_title") {
                 const { comic_title, token } = request;
 
                 // 이제 comic_title과 token을 사용하여 서버에 요청할 수 있습니다.
@@ -70,7 +70,7 @@ check_my_token().then(() => {
                             // var result = data.map(function (history) {
                             //     return { "title": history.title, "read_at": history.read_at.toString(), "saved": true };
                             // });
-                            console.log("getReadHistoryOfTitle: " + parsed_json)
+                            console.log("get_history_of_title: " + parsed_json)
                             sendResponse(parsed_json);
                         }
                     })

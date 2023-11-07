@@ -52,22 +52,43 @@
 완 - extension 서버의 공지사항 표시 할 element 추가 해놓기
         - 주석 처리, 딱히 필요 없는 듯
 
+완 - 모든 fetch bg.js로 옮기기
+        - 비동기 지옥이라 못 하겠음ㅋㅋ;;
+
+완 - 종종 처음 들어가면 무반응인거 확인하기
+        - 재현 빡쎔
+        - 토큰 때문에 그랬음
+
+진 - store에 publish
+        -검토 대기중
 
 진 - 모든 response 작업하기, fetch랑 sendmessage들
         - 서버는 response status code 모든 분기에 넣음, 200, 400      
+ipad 에서 사용 가능한 safari, chrome extension으로 export
+        - publish 되면 진행 예정
 
 저장 및 실패 로그 탭 제공해서 보여주기, 이건 로컬에 저장 해야 함
-종종 처음 들어가면 무반응인거 확인하기
-        - 재현 빡쎔
-ipad 에서 사용 가능한 safari, chrome extension으로 export
-store에 publish
+
+
 로컬 저장 안함에 따라서 Import, Export 기능 바꾸기
-? - fetch 쓰는거 전부 bg.js로 옮길까 생각 중임
+
 서버 연결 실패 시 notification 주기?
 
+//모든 사람이 목록 페이지를 거쳐서 뷰페이지로 이동하지 않음
+//이러나 저러나 크롤링 하면 더 정확해지긴 하는데, 그러고 싶지는 않음
 
 딱히
 순위나 comic title 제공할 때 캐시서버 써보기? 의미 없긴한데
-google login 넣어볼까 말까
+google login 넣어볼까 말까 -> 이걸로 해도 이메일 수집하기 때문에 처리방침 필요함
 저쪽 서버의 comic의 id나, episode의 id도 전달을 해야할지 고민중
 episode를 tree view로 년월일 ㄴ 타이틀 - 시분초, 고민중
+
+디비, 근데 이거 바꾸면 진짜 아효
+comic
+키, 제목
+
+episode
+코믹 키, 제목, url
+
+history
+유저 아이디, 코믹 키, 에피소드 키

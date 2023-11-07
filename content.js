@@ -1,5 +1,4 @@
-//모든 사람이 목록 페이지를 거쳐서 뷰페이지로 이동하지 않음
-//이러나 저러나 크롤링 하면 더 정확해지긴 하는데, 그러고 싶지는 않음
+
 
 var styleElement = document.createElement('style');
 
@@ -21,7 +20,7 @@ function appendReadTime(comic_title) {
             const currentTime = new Date();
 
             if (currentTime < expireTime) {
-                chrome.runtime.sendMessage({ action: "getReadHistoryOfTitle", comic_title: comic_title, token: token }, function (response) {
+                chrome.runtime.sendMessage({ action: "get_history_of_title", comic_title: comic_title, token: token }, function (response) {
                     // 서버 응답을 받아 처리합니다.
                     console.log("appendReadTime: " + response);
                     if (response === "not found episodes") {
@@ -64,7 +63,7 @@ function appendReadTime(comic_title) {
                                 try {
                                     // const response = await new Promise((resolve, reject) => {
                                     // await new Promise((resolve) => {
-                                    chrome.runtime.sendMessage({ action: "setTitle", title: wrTitle, read_at: "1970-01-01 00:00:00" }, function (response) {
+                                    chrome.runtime.sendMessage({ action: "add_history", title: wrTitle, read_at: "1970-01-01 00:00:00" }, function (response) {
                                         // resolve(response);
                                         // 응답 받으면 여기서 또 받은걸 append해주면 될 듯
                                     });
@@ -116,7 +115,7 @@ async function start() {
                 try {
                     // const response = await new Promise((resolve, reject) => {
                     // const response = await new Promise((resolve) => {
-                    chrome.runtime.sendMessage({ action: "setTitle", title: subjectValue, read_at: getLocalDateTimeString() }, function (response) {
+                    chrome.runtime.sendMessage({ action: "add_history", title: subjectValue, read_at: getLocalDateTimeString() }, function (response) {
                         // if (response === null) {
                         //     reject(new Error('응답이 null입니다.'));
                         // } else if (response.success) {
@@ -126,7 +125,7 @@ async function start() {
                         // }
                         console.log("response: " + response)
                         console.log('finding tag')
-                        
+
                         var toonTitleElement = document.querySelector('.toon-title');
 
                         if (toonTitleElement) {
