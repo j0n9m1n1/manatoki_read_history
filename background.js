@@ -7,7 +7,10 @@ check_my_token().then(() => {
 
     chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         if (request.action == "login") {
-            bg_login(request);
+            bg_login(request, function (res) {
+                console.log(res);
+                sendResponse(res);
+            });
         }
         else if (request.action == "password_reset") {
             bg_password_reset(request, function (res) {
@@ -43,7 +46,7 @@ check_my_token().then(() => {
                 });
 
             }
-            else if (reuqest.action == "get_episode") {
+            else if (request.action == "get_episode") {
                 bg_get_episode(request);
             }
             else if (request.action == "get_comic") {
@@ -123,7 +126,7 @@ function getLocalDateTimeString() {
     return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
 }
 
-function bg_login(request) {
+function bg_login(request, callback) {
     fetch('https://jmlee4dev.net/extension/login', {
         method: 'POST',
         mode: 'cors',
@@ -145,8 +148,7 @@ function bg_login(request) {
                     'token': data.token,
                     'token_expire': data.token_expire
                 }, function () {
-                    //check_my_token() 할까 그냥
-
+                    callback("success");
                 });
 
 

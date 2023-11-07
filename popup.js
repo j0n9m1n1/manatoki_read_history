@@ -57,9 +57,12 @@ check_my_token().then(() => {
     // });
 
     document.getElementById('loginButton').addEventListener('click', function () {
-        login();
-
-
+        login().then((response) => {
+            console.log("login: " + response);
+            check_my_token();
+            console.log("after check_my_token")
+            get_episode_titles(episodeTitleElement, request_fetch_count);
+        });
     });
 
     document.getElementById('logout').addEventListener('click', function () {
@@ -169,17 +172,19 @@ function login() {
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
 
-    chrome.runtime.sendMessage({ action: "login", email: email, password: password }, function (response) {
+    return new Promise((resolve, reject) => {
+        chrome.runtime.sendMessage({ action: "login", email: email, password: password }, response => {
+            console.log("got resolve")
+            resolve(response);
+        });
 
-        check_my_token();
-        get_episode_titles(episodeTitleElement, request_fetch_count);
     });
 
 }
 
 function logout() {
     chrome.runtime.sendMessage({ action: "logout" }, function (response) {
-
+        console.log("logout: " + response)
         check_my_token();
     });
 
