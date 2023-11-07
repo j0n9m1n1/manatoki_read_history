@@ -56,6 +56,9 @@
 진 - 모든 response 작업하기, fetch랑 sendmessage들
         - 서버는 response status code 모든 분기에 넣음, 200, 400      
 
+모든 fetch bg.js로 빼기
+        - 초심자 입장에서 지옥임, token 체크가 storage에 있어서 이거 비동기 + sendmessage 비동기 + fetch 비동기 + response를 받아야하는데 정신나갈것같음
+
 처음에 패스워드 넣고 로그인 버튼 누르면 로그인 안 되는 것 확인하기
 로그인 하자 마자 모든 탭에서 가져오지 못 하는 것 확인하기
 
