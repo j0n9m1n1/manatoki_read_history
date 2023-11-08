@@ -1,12 +1,12 @@
+var episodeTitleElement = document.getElementById('episode_title_list');
+var comicTitlesElement = document.getElementById('comic_title_list');
+var popularityTitleElement = document.getElementById('popularity_episode_list');
+
 var request_fetch_count = 50
 
 var email = undefined;
 var token = undefined;
 var expired = true;
-
-var div_episodes = document.getElementById("div_episodes");
-var div_comics = document.getElementById("div_comics");
-var div_popularity = document.getElementById("div_popularity");
 
 const tabs = document.querySelectorAll('.tab_btn');
 const all_content = document.querySelectorAll('.content');
@@ -28,10 +28,6 @@ tabs.forEach((tab, index) => {
 
 check_my_token().then(() => {
     console.log('after resolve()')
-    // document.addEventListener('DOMContentLoaded', function () {
-    var episodeTitleElement = document.getElementById('episode_title_list');
-    var comicTitlesElement = document.getElementById('comic_title_list');
-    var popularityTitleElement = document.getElementById('popularity_episode_list');
 
     get_episode_titles(episodeTitleElement, request_fetch_count);
 
@@ -40,9 +36,7 @@ check_my_token().then(() => {
     });
 
     document.getElementById('episodes').addEventListener('click', function () {
-        console.log('episodes')
         get_episode_titles(episodeTitleElement, request_fetch_count);
-
     });
 
     document.getElementById('comics').addEventListener('click', function () {
@@ -184,20 +178,18 @@ function login() {
             console.log(data.token_expire)
             console.log("data message: ", data.message)
             if (data.message === "success") {
+
                 chrome.storage.local.set({
                     'email': email,
                     'token': data.token,
                     'token_expire': data.token_expire
                 }, function () {
-                    //check_my_token() 할까 그냥
+                    console.log("in function");
 
                 });
                 check_my_token();
                 get_episode_titles(episodeTitleElement, request_fetch_count);
-
-                // document.getElementById('login_email').textContent = 'email: ' + email;
-                // document.getElementById('div_login').style.display = 'none';
-                // document.getElementById('div_login_info').style.display = 'block';
+                console.log("after set");
             }
             else {
                 var loginMessage = document.getElementById('loginMessage');
@@ -305,14 +297,8 @@ function get_episode_titles(episodeTitleElement, request_fetch_count) {
 
                 for (let title in parsed_json) {
                     if (parsed_json.hasOwnProperty(title)) {
-                        // var button = document.createElement('button');
-                        // button.textContent = 'Delete';
-                        // button.className = 'btn';
-                        // button.addEventListener('click', removeItem);
                         var listItem = document.createElement('li');
-                        // listItem.textContent = parsed_json[title] + ' - ' + title + '  ';
                         listItem.textContent = parsed_json[title] + ' - ' + title;
-                        // listItem.appendChild(button);
                         console.log('listItem: ' + listItem)
                         episodeTitleElement.appendChild(listItem);
                     }
