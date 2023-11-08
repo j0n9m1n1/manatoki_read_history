@@ -339,19 +339,19 @@ function get_comic_titles(comicTitlesElement) {
             .then(data => {
                 parsed_json = JSON.parse(data)
                 console.log("get_comic: " + parsed_json)
-
+                console.log(parsed_json.length)
                 var ulElement = document.getElementById('comic_title_list');
 
                 while (ulElement.firstChild) {
                     ulElement.removeChild(ulElement.firstChild);
                 }
 
-                for (var title of parsed_json["comic_title"]) {
+                for (var i = 0; i < parsed_json.length; i++) {
                     var listItem = document.createElement('li');
-                    console.log(title);
-                    listItem.textContent = title;
+                    listItem.textContent = parsed_json[i][1] + " - " + parsed_json[i][0];
                     comicTitlesElement.appendChild(listItem);
                 }
+
             })
             .catch(error => {
                 console.error('Error:', error);
