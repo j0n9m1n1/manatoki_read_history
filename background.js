@@ -11,11 +11,15 @@ check_my_token().then(() => {
             if (request.action == "add_history") {
                 var titleValue = request.title;
                 console.log("read_at: " + request.read_at)
+                console.log("sid: " + request.sid)
+                console.log("episode sid: " + request.episode_sid)
                 console.log("bg.js title: " + titleValue)
                 var currentFormattedDateTime = request.read_at;
                 console.log("currentFormattedDateTime: " + currentFormattedDateTime)
                 var formData = {
                     title: titleValue,
+                    sid: request.sid,
+                    episode_sid: request.episode_sid,
                     read_at: currentFormattedDateTime,
                 };
                 var jsonData = JSON.stringify(formData);
@@ -46,10 +50,10 @@ check_my_token().then(() => {
                     });
             }
             else if (request.action === "get_history_of_title") {
-                const { comic_title, token } = request;
+                const { comic_title, sid, token } = request;
 
                 // 이제 comic_title과 token을 사용하여 서버에 요청할 수 있습니다.
-                const url = `https://jmlee4dev.net/extension/get_history_of_title?comic_title=${encodeURIComponent(comic_title)}`;
+                const url = `https://jmlee4dev.net/extension/get_history_of_title?comic_title=${encodeURIComponent(comic_title)}&sid=${encodeURIComponent(sid)}`;
 
                 fetch(url, {
                     method: 'GET',

@@ -9,7 +9,7 @@ styleElement.textContent = `
 `;
 document.head.appendChild(styleElement);
 
-function appendReadTime(comic_title) {
+function append_read_time(comic_title) {
 
     chrome.storage.local.get(['token', 'token_expire'], async function (result) {
         const token = result.token;
@@ -20,9 +20,10 @@ function appendReadTime(comic_title) {
             const currentTime = new Date();
 
             if (currentTime < expireTime) {
-                chrome.runtime.sendMessage({ action: "get_history_of_title", comic_title: comic_title, token: token }, function (response) {
+                const sidValue = document.querySelector('input[name="sid"]').value;
+                chrome.runtime.sendMessage({ action: "get_history_of_title", comic_title: comic_title, sid: sidValue, token: token }, function (response) {
                     // 서버 응답을 받아 처리합니다.
-                    console.log("appendReadTime: " + response);
+                    console.log("append_read_time: " + response);
                     if (response === "not found episodes") {
                         //아직 몰루
                     }
@@ -103,19 +104,30 @@ async function start() {
             if (ogTypeValue === "website") {
                 console.log("목록 페이지");
                 console.log('subject content: ' + subjectValue);
-                appendReadTime(subjectValue);
+                append_read_time(subjectValue);
             }
 
             else if (ogTypeValue === "article") {
                 console.log("뷰 페이지");
                 console.log('subject content: ' + subjectValue);
 
-                // var toon_title_element = document.querySelector('.toon-title');
-
                 try {
-                    // const response = await new Promise((resolve, reject) => {
-                    // const response = await new Promise((resolve) => {
-                    chrome.runtime.sendMessage({ action: "add_history", title: subjectValue, read_at: getLocalDateTimeString() }, function (response) {
+                    const ogImageTag = document.querySelector('meta[property="og:image"]');
+                    const contentValue = ogImageTag.getAttribute('content');
+
+                    const regex = /\/comic\/(\d+)\/(\d+)\//;
+                    const matches = contentValue.match(regex);
+                    var comic_sid, episode_sid;
+                    if (matches) {
+                        comic_sid = matches[1];
+                        episode_sid = matches[2];
+                        console.log("첫 번째 값:", comic_sid);
+                        console.log("두 번째 값:", episode_sid);
+                    } else {
+                        console.error("값을 찾을 수 없습니다.");
+                    }
+
+                    chrome.runtime.sendMessage({ action: "add_history", title: subjectValue, sid: comic_sid, episode_sid: episode_sid, read_at: getLocalDateTimeString() }, function (response) {
                         // if (response === null) {
                         //     reject(new Error('응답이 null입니다.'));
                         // } else if (response.success) {

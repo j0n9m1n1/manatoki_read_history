@@ -1,14 +1,10 @@
 {
     "manifest_version": 3,
     "name": "Manatoki Read History",
-    "version": "1.0",
+    "version": "1.1",
     "description": "마나토끼 봤던 만화 기록 및 표시",
     "permissions": [
-        "tabs",
-        "storage",
-        "activeTab",
-        "scripting",
-        "notifications"
+        "storage"
     ],
     "host_permissions": [
         "https://jmlee4dev.net/*"
