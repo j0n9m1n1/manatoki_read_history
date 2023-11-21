@@ -59,24 +59,25 @@
         - 재현 빡쎔
         - 토큰 때문에 그랬음
 
-진 - store에 publish
-        -검토 대기중
+완 - ipad 에서 사용 가능한 safari, chrome extension으로 export
+        - publish 되면 진행 예정
+        -> 근데 이건 내가 만들어도 애플에서 사이드로드를 허용하지 않는 이상 무쓸모
+        -> 내 아이패드 꽂고 xcode에서 ipad에 빌드해서 사용하는중
+
+완 - store에 publish
+        -검토 대기중, 5500원은 상상도 못 했음
 
 진 - 모든 response 작업하기, fetch랑 sendmessage들
         - 서버는 response status code 모든 분기에 넣음, 200, 400      
-ipad 에서 사용 가능한 safari, chrome extension으로 export
-        - publish 되면 진행 예정
 
-저장 및 실패 로그 탭 제공해서 보여주기, 이건 로컬에 저장 해야 함
+
+; 저장 및 실패 로그 탭 제공해서 보여주기, 이건 로컬에 저장 해야 함
 
 로그인 되어 있지 않은 경우 extension 아이콘에 표시 해주기
 
 로컬 저장 안함에 따라서 Import, Export 기능 바꾸기
 
 서버 연결 실패 시 notification 주기?
-
-//모든 사람이 목록 페이지를 거쳐서 뷰페이지로 이동하지 않음
-//이러나 저러나 크롤링 하면 더 정확해지긴 하는데, 그러고 싶지는 않음
 
 딱히
 순위나 comic title 제공할 때 캐시서버 써보기? 의미 없긴한데
